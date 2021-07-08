@@ -261,7 +261,6 @@ def _check_srm_params(srm_components, srm_atlas, trains_align, trains_decode):
 
     return srm_components_, srm_atlas
 
-
 def fetch_resample_basc(mask, scale="444"):
     from nilearn.datasets import fetch_atlas_basc_multiscale_2015
     from nilearn.image import resample_to_img
