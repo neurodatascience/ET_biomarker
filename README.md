@@ -28,7 +28,8 @@ Dependencies :
 * `pandas <https://pandas.pydata.org/>`_
 * `scipy <https://www.scipy.org/>`_
 * `scikit-learn <http://scikit-learn.org/stable/>`_
-* `statsmodels>=0.12.0 <https://www.statsmodels.org/stable/index.html>`_
+* `statsmodels>=0.12.0 <https://www.statsmodels.org/stable/index.html>`
+* `pydicom>=2.1.2 <https://www.statsmodels.org/stable/index.html>`
 
 Installation (need update)
 ------------
