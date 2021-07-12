@@ -1,6 +1,5 @@
 #!/bin/bash
 DATA_NAME=(${@:1:1})
-# ADNI
 HEURISTIC_FILE=(${@:2:1})
 echo ${DATA_NAME}
 echo ${HEURISTIC_FILE}
@@ -78,4 +77,4 @@ fi
 echo "Step2: folders created!"
 
 # submit batch job
-sbatch ${CODE_DIR}/heudiconv_run1.slurm ${DATA_NAME} ${N_SUB}>> ${LOG_FILE_r1}
+sbatch ${CODE_DIR}/heudiconv_run1.slurm ${DATA_NAME} >> ${LOG_FILE_r1}
