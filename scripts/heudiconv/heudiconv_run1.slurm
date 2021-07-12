@@ -13,8 +13,13 @@
 
 DATA_NAME=(${@:1:1})
 echo ${DATA_NAME}
-# PPMI N = 117
-# ADNI N = ?
+
+# PPMI N=117
+# ADNI N=???
+# MNI-ET N = 42
+# MNI-PD N = 56
+# MNI-NC N = 36
+
 WD_NAME="scratch"
 #HEURISTIC_FILE="src/Heuristics_Abbas_all_T1_T2_fMRI_DTI_SWI.py"
 WD_DIR=${HOME}/${WD_NAME}
@@ -36,18 +41,15 @@ echo "Current Directory: " ${WD_DIR}
 DIR_STR=${DIR//\//" " }
 echo ${DIR_STR}
 #Get subject ID
-if [ ${DATA_NAME} = 'PPMI' ]
-then
+if [ ${DATA_NAME} = 'PPMI' ]; then
     DATA_DIR_LEN_OFFSET=32
-elif [ ${DATA_NAME} = 'ADNI' ]
-then
+elif [ ${DATA_NAME} = 'ADNI' ]; then
     DATA_DIR_LEN_OFFSET=32
-elif [ ${DATA_NAME} = 'ET' or NC or PD ]
-then
-    DATA_DIR_LEN_OFFSET=32
+else
+    DATA_DIR_LEN_OFFSET=29
 fi
 subject_id=${DIR_STR[@]:DATA_DIR_LEN_OFFSET}
-echo ${subject_id}
+echo ${DATA_NAME} ${subject_id}
 ## session
 #ls ${DIR} >> ${subject_id}.ses
 #N_SES=$(cat ${subject_id}.ses|wc -l )
