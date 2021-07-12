@@ -43,4 +43,4 @@ else
 fi
 
 # submit batch job
-sbatch {CODE_DIR} ${DATA_NAME} ${HEURISTIC_FILE} ${CON_IMG} ${SUB_LIST}>> ${LOG_FILE}
+sbatch ${CODE_DIR} ${DATA_NAME} ${HEURISTIC_FILE} ${CON_IMG} ${SUB_LIST}>> ${LOG_FILE}
