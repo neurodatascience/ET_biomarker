@@ -22,6 +22,9 @@ SLURM_LOG_OUT_DIR=${DATA_DIR}_heudiconv_log
 
 rm -rf ${SLURM_LOG_OUT_DIR}_run1
 rm -rf ${SLURM_LOG_OUT_DIR}_run2
+rm -rf *.err
+rm -rf *.out
+
 rm ${SUB_LIST}
 
 RUN_ID=$(tail -c 9 ${LOG_FILE_r1})
