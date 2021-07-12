@@ -1,6 +1,8 @@
 #!/bin/bash
 DATA_NAME=(${@:1:1})
 echo ${DATA_NAME}
+COV_MODE=(${@:2:1})
+echo ${DATA_NAME}
 
 WD_NAME="scratch"
 LOG_FILE=${DATA_NAME}_heudiconv_run2.log
@@ -13,6 +15,23 @@ SUB_LIST=${WD_DIR}/${DATA_NAME}_subjects.list
 BIDS_DIR=${DATA_DIR}_BIDS
 SLURM_LOG_OUT_DIR=${DATA_DIR}_Heudiconv_SLURM_LOG_OUT_r2
 CON_IMG_DIR=${WD_DIR}/container_images
+
+#Get subject ID
+if [ ${DATA_NAME} = 'PPMI' ]
+then
+    DATA_DIR_LEN_OFFSET=32
+    HEURISTIC_FILE="src/Heuristics_Abbas_all_T1_T2_fMRI_DTI_SWI.py"
+elif [ ${DATA_NAME} = 'ADNI' ]
+then
+    DATA_DIR_LEN_OFFSET=32
+elif [ ${DATA_NAME} = 'ADNI' ]
+then
+    DATA_DIR_LEN_OFFSET=32
+elif [ ${DATA_NAME} = 'ADNI' ]
+then
+    DATA_DIR_LEN_OFFSET=32
+fi
+
 
 RUN_ID=$(tail -c 9 ${DATA_NAME}_heudiconv_run2.log)
 if [ -z $RUN_ID ];then

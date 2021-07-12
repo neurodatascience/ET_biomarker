@@ -1,8 +1,8 @@
 #!/bin/bash
 DATA_NAME=(${@:1:1})
-HEURISTIC_FILE=(${@:2:1})
 echo ${DATA_NAME}
-echo ${HEURISTIC_FILE}
+#HEURISTIC_FILE=(${@:2:1})
+#echo ${HEURISTIC_FILE}
 # HEURISTIC_FILE="src/Heuristics_Abbas_all_T1_T2_fMRI_DTI_SWI.py"
 
 SEARCH_LV=1

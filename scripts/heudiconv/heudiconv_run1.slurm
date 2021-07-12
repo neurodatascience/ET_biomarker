@@ -42,6 +42,9 @@ then
 elif [ ${DATA_NAME} = 'ADNI' ]
 then
     DATA_DIR_LEN_OFFSET=32
+elif [ ${DATA_NAME} = 'ET' or NC or PD ]
+then
+    DATA_DIR_LEN_OFFSET=32
 fi
 subject_id=${DIR_STR[@]:DATA_DIR_LEN_OFFSET}
 echo ${subject_id}

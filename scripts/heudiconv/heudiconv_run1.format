@@ -11,8 +11,8 @@ INFO_SUM_DIR=${DATA_DIR}_INFO_SUM
 INFO_SUM_DIR_NAME=${DATA_NAME}_INFO_SUM
 SLURM_LOG_OUT_DIR=${DATA_DIR}_Heudiconv_SLURM_LOG_OUT_run1
 LOG_DIR_NAME=${DATA_NAME}_Heudiconv_SLURM_LOG_OUT_run1
-# copying and merging information tsv files.
 
+# copying and merging information tsv files.
 RUN_ID=$(tail -c 9 ${DATA_NAME}_heudiconv_run1.log)
 mv heudi_vinc_r1-${RUN_ID}*.out ${LOG_DIR_NAME}
 mv heudi_vinc_r1-${RUN_ID}*.err ${LOG_DIR_NAME}
