@@ -52,13 +52,12 @@ echo ${subject_id}
 #ses_id=$(sed -n "${i_ses}p" ${subject_id}.ses )
 singularity run -B ${WD_DIR}:${SINGULARITY_MNT_DIR} \
 ${CON_IMG_DIR}/heudiconv_v0.8.0.simg \
--d ${SINGULARITY_MNT_DIR}/${DATA_NAME}/{subject}/{acq_protocol}/{acq_time}/{session}* \
--s ${subject_id} \
-#-ss ${ses_id} \
+-d ${SINGULARITY_MNT_DIR}/${DATA_NAME}/{subject}/*/*/*/*.dcm \
+-s ${subject_id} -c none \
 -f convertall \
-#--grouping studyUID \
--c none \
 -o ${SINGULARITY_OUT_DIR} \
---overwrite \
-done
+--overwrite
+#-ss ${ses_id} \
+#--grouping studyUID \
+
 echo "Step3: Heudiconv Run1 finishted!"
