@@ -7,8 +7,10 @@ WD_DIR=${HOME}/scratch
 DATA_DIR=${WD_DIR}/${DATA_NAME}
 BIDS_DIR=${DATA_DIR}_BIDS
 BIDS_DIR_NAME=${DATA_NAME}_BIDS
-SLURM_LOG_OUT_DIR=${DATA_DIR}_Heudiconv_SLURM_LOG_OUT_run2
-LOG_DIR_NAME=${DATA_NAME}_Heudiconv_SLURM_LOG_OUT_run2
+
+LOG_FILE=${DATA_NAME}_heudiconv_run2.log
+SLURM_LOG_OUT_DIR=${DATA_DIR}_heudiconv_log_run2
+LOG_DIR_NAME=${DATA_NAME}_heudiconv_log_run2
 
 RUN_ID=$(tail -c 9 ${DATA_NAME}_heudiconv_run2.log)
 mv heudic_r2_vin-${RUN_ID}*.out ${LOG_DIR_NAME}
