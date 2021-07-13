@@ -1,0 +1,704 @@
+PPMI_BIDS/
+├── CHANGES
+├── dataset_description.json
+├── participants.json
+├── participants.tsv
+├── README
+├── sub-3000
+│   ├── anat
+│   │   ├── sub-3000_run-1_T1w.json
+│   │   └── sub-3000_run-1_T1w.nii.gz
+│   ├── sub-3000_scans.json
+│   └── sub-3000_scans.tsv
+├── sub-3004
+│   ├── anat
+│   │   ├── sub-3004_run-1_T1w.json
+│   │   └── sub-3004_run-1_T1w.nii.gz
+│   ├── sub-3004_scans.json
+│   └── sub-3004_scans.tsv
+├── sub-3008
+│   ├── anat
+│   │   ├── sub-3008_run-1_T1w.json
+│   │   └── sub-3008_run-1_T1w.nii.gz
+│   ├── sub-3008_scans.json
+│   └── sub-3008_scans.tsv
+├── sub-3011
+│   ├── anat
+│   │   ├── sub-3011_run-1_T1w.json
+│   │   └── sub-3011_run-1_T1w.nii.gz
+│   ├── sub-3011_scans.json
+│   └── sub-3011_scans.tsv
+├── sub-3013
+│   ├── anat
+│   │   ├── sub-3013_run-1_T1w.json
+│   │   └── sub-3013_run-1_T1w.nii.gz
+│   ├── sub-3013_scans.json
+│   └── sub-3013_scans.tsv
+├── sub-3016
+│   ├── anat
+│   │   ├── sub-3016_run-1_T1w.json
+│   │   └── sub-3016_run-1_T1w.nii.gz
+│   ├── sub-3016_scans.json
+│   └── sub-3016_scans.tsv
+├── sub-3029
+│   ├── anat
+│   │   ├── sub-3029_run-1_T1w.json
+│   │   └── sub-3029_run-1_T1w.nii.gz
+│   ├── sub-3029_scans.json
+│   └── sub-3029_scans.tsv
+├── sub-3104
+│   ├── anat
+│   │   ├── sub-3104_run-1_T1w.json
+│   │   └── sub-3104_run-1_T1w.nii.gz
+│   ├── sub-3104_scans.json
+│   └── sub-3104_scans.tsv
+├── sub-3106
+│   ├── anat
+│   │   ├── sub-3106_run-1_T1w.json
+│   │   └── sub-3106_run-1_T1w.nii.gz
+│   ├── sub-3106_scans.json
+│   └── sub-3106_scans.tsv
+├── sub-3112
+│   ├── anat
+│   │   ├── sub-3112_run-1_T1w.json
+│   │   └── sub-3112_run-1_T1w.nii.gz
+│   ├── sub-3112_scans.json
+│   └── sub-3112_scans.tsv
+├── sub-3114
+│   ├── anat
+│   │   ├── sub-3114_run-1_T1w.json
+│   │   └── sub-3114_run-1_T1w.nii.gz
+│   ├── sub-3114_scans.json
+│   └── sub-3114_scans.tsv
+├── sub-3115
+│   ├── anat
+│   │   ├── sub-3115_run-1_T1w.json
+│   │   └── sub-3115_run-1_T1w.nii.gz
+│   ├── sub-3115_scans.json
+│   └── sub-3115_scans.tsv
+├── sub-3151
+│   ├── anat
+│   │   ├── sub-3151_run-1_T1w.json
+│   │   └── sub-3151_run-1_T1w.nii.gz
+│   ├── sub-3151_scans.json
+│   └── sub-3151_scans.tsv
+├── sub-3156
+│   ├── anat
+│   │   ├── sub-3156_run-1_T1w.json
+│   │   └── sub-3156_run-1_T1w.nii.gz
+│   ├── sub-3156_scans.json
+│   └── sub-3156_scans.tsv
+├── sub-3157
+│   ├── anat
+│   │   ├── sub-3157_run-1_T1w.json
+│   │   └── sub-3157_run-1_T1w.nii.gz
+│   ├── sub-3157_scans.json
+│   └── sub-3157_scans.tsv
+├── sub-3160
+│   ├── anat
+│   │   ├── sub-3160_run-1_T1w.json
+│   │   └── sub-3160_run-1_T1w.nii.gz
+│   ├── sub-3160_scans.json
+│   └── sub-3160_scans.tsv
+├── sub-3161
+│   ├── anat
+│   │   ├── sub-3161_run-1_T1w.json
+│   │   └── sub-3161_run-1_T1w.nii.gz
+│   ├── sub-3161_scans.json
+│   └── sub-3161_scans.tsv
+├── sub-3165
+│   ├── anat
+│   │   ├── sub-3165_run-1_T1w.json
+│   │   └── sub-3165_run-1_T1w.nii.gz
+│   ├── sub-3165_scans.json
+│   └── sub-3165_scans.tsv
+├── sub-3169
+│   ├── anat
+│   │   ├── sub-3169_run-1_T1w.json
+│   │   └── sub-3169_run-1_T1w.nii.gz
+│   ├── sub-3169_scans.json
+│   └── sub-3169_scans.tsv
+├── sub-3171
+│   ├── anat
+│   │   ├── sub-3171_run-1_T1w.json
+│   │   └── sub-3171_run-1_T1w.nii.gz
+│   ├── sub-3171_scans.json
+│   └── sub-3171_scans.tsv
+├── sub-3172
+│   ├── anat
+│   │   ├── sub-3172_run-1_T1w.json
+│   │   └── sub-3172_run-1_T1w.nii.gz
+│   ├── sub-3172_scans.json
+│   └── sub-3172_scans.tsv
+├── sub-3188
+│   ├── anat
+│   │   ├── sub-3188_run-1_T1w.json
+│   │   └── sub-3188_run-1_T1w.nii.gz
+│   ├── sub-3188_scans.json
+│   └── sub-3188_scans.tsv
+├── sub-3191
+│   ├── anat
+│   │   ├── sub-3191_run-1_T1w.json
+│   │   └── sub-3191_run-1_T1w.nii.gz
+│   ├── sub-3191_scans.json
+│   └── sub-3191_scans.tsv
+├── sub-3257
+│   ├── anat
+│   │   ├── sub-3257_run-1_T1w.json
+│   │   └── sub-3257_run-1_T1w.nii.gz
+│   ├── sub-3257_scans.json
+│   └── sub-3257_scans.tsv
+├── sub-3260
+│   ├── anat
+│   │   ├── sub-3260_run-1_T1w.json
+│   │   └── sub-3260_run-1_T1w.nii.gz
+│   ├── sub-3260_scans.json
+│   └── sub-3260_scans.tsv
+├── sub-3264
+│   ├── anat
+│   │   ├── sub-3264_run-1_T1w.json
+│   │   └── sub-3264_run-1_T1w.nii.gz
+│   ├── sub-3264_scans.json
+│   └── sub-3264_scans.tsv
+├── sub-3270
+│   ├── anat
+│   │   ├── sub-3270_run-1_T1w.json
+│   │   └── sub-3270_run-1_T1w.nii.gz
+│   ├── sub-3270_scans.json
+│   └── sub-3270_scans.tsv
+├── sub-3271
+│   ├── anat
+│   │   ├── sub-3271_run-1_T1w.json
+│   │   └── sub-3271_run-1_T1w.nii.gz
+│   ├── sub-3271_scans.json
+│   └── sub-3271_scans.tsv
+├── sub-3274
+│   ├── anat
+│   │   ├── sub-3274_run-1_T1w.json
+│   │   └── sub-3274_run-1_T1w.nii.gz
+│   ├── sub-3274_scans.json
+│   └── sub-3274_scans.tsv
+├── sub-3276
+│   ├── anat
+│   │   ├── sub-3276_run-1_T1w.json
+│   │   └── sub-3276_run-1_T1w.nii.gz
+│   ├── sub-3276_scans.json
+│   └── sub-3276_scans.tsv
+├── sub-3277
+│   ├── anat
+│   │   ├── sub-3277_run-1_T1w.json
+│   │   └── sub-3277_run-1_T1w.nii.gz
+│   ├── sub-3277_scans.json
+│   └── sub-3277_scans.tsv
+├── sub-3300
+│   ├── anat
+│   │   ├── sub-3300_run-1_T1w.json
+│   │   └── sub-3300_run-1_T1w.nii.gz
+│   ├── sub-3300_scans.json
+│   └── sub-3300_scans.tsv
+├── sub-3301
+│   ├── anat
+│   │   ├── sub-3301_run-1_T1w.json
+│   │   └── sub-3301_run-1_T1w.nii.gz
+│   ├── sub-3301_scans.json
+│   └── sub-3301_scans.tsv
+├── sub-3310
+│   ├── anat
+│   │   ├── sub-3310_run-1_T1w.json
+│   │   └── sub-3310_run-1_T1w.nii.gz
+│   ├── sub-3310_scans.json
+│   └── sub-3310_scans.tsv
+├── sub-3316
+│   ├── anat
+│   │   ├── sub-3316_run-1_T1w.json
+│   │   └── sub-3316_run-1_T1w.nii.gz
+│   ├── sub-3316_scans.json
+│   └── sub-3316_scans.tsv
+├── sub-3318
+│   ├── anat
+│   │   ├── sub-3318_run-1_T1w.json
+│   │   └── sub-3318_run-1_T1w.nii.gz
+│   ├── sub-3318_scans.json
+│   └── sub-3318_scans.tsv
+├── sub-3320
+│   ├── anat
+│   │   ├── sub-3320_run-1_T1w.json
+│   │   └── sub-3320_run-1_T1w.nii.gz
+│   ├── sub-3320_scans.json
+│   └── sub-3320_scans.tsv
+├── sub-3350
+│   ├── anat
+│   │   ├── sub-3350_run-1_T1w.json
+│   │   └── sub-3350_run-1_T1w.nii.gz
+│   ├── sub-3350_scans.json
+│   └── sub-3350_scans.tsv
+├── sub-3351
+│   ├── anat
+│   │   ├── sub-3351_run-1_T1w.json
+│   │   └── sub-3351_run-1_T1w.nii.gz
+│   ├── sub-3351_scans.json
+│   └── sub-3351_scans.tsv
+├── sub-3353
+│   ├── anat
+│   │   ├── sub-3353_run-1_T1w.json
+│   │   └── sub-3353_run-1_T1w.nii.gz
+│   ├── sub-3353_scans.json
+│   └── sub-3353_scans.tsv
+├── sub-3355
+│   ├── anat
+│   │   ├── sub-3355_run-1_T1w.json
+│   │   └── sub-3355_run-1_T1w.nii.gz
+│   ├── sub-3355_scans.json
+│   └── sub-3355_scans.tsv
+├── sub-3357
+│   ├── anat
+│   │   ├── sub-3357_run-1_T1w.json
+│   │   └── sub-3357_run-1_T1w.nii.gz
+│   ├── sub-3357_scans.json
+│   └── sub-3357_scans.tsv
+├── sub-3358
+│   ├── anat
+│   │   ├── sub-3358_run-1_T1w.json
+│   │   └── sub-3358_run-1_T1w.nii.gz
+│   ├── sub-3358_scans.json
+│   └── sub-3358_scans.tsv
+├── sub-3361
+│   ├── anat
+│   │   ├── sub-3361_run-1_T1w.json
+│   │   └── sub-3361_run-1_T1w.nii.gz
+│   ├── sub-3361_scans.json
+│   └── sub-3361_scans.tsv
+├── sub-3362
+│   ├── anat
+│   │   ├── sub-3362_run-1_T1w.json
+│   │   └── sub-3362_run-1_T1w.nii.gz
+│   ├── sub-3362_scans.json
+│   └── sub-3362_scans.tsv
+├── sub-3368
+│   ├── anat
+│   │   ├── sub-3368_run-1_T1w.json
+│   │   └── sub-3368_run-1_T1w.nii.gz
+│   ├── sub-3368_scans.json
+│   └── sub-3368_scans.tsv
+├── sub-3369
+│   ├── anat
+│   │   ├── sub-3369_run-1_T1w.json
+│   │   └── sub-3369_run-1_T1w.nii.gz
+│   ├── sub-3369_scans.json
+│   └── sub-3369_scans.tsv
+├── sub-3370
+│   ├── anat
+│   │   ├── sub-3370_run-1_T1w.json
+│   │   └── sub-3370_run-1_T1w.nii.gz
+│   ├── sub-3370_scans.json
+│   └── sub-3370_scans.tsv
+├── sub-3389
+│   ├── anat
+│   │   ├── sub-3389_run-1_T1w.json
+│   │   └── sub-3389_run-1_T1w.nii.gz
+│   ├── sub-3389_scans.json
+│   └── sub-3389_scans.tsv
+├── sub-3390
+│   ├── anat
+│   │   ├── sub-3390_run-1_T1w.json
+│   │   └── sub-3390_run-1_T1w.nii.gz
+│   ├── sub-3390_scans.json
+│   └── sub-3390_scans.tsv
+├── sub-3503
+│   ├── anat
+│   │   ├── sub-3503_run-1_T1w.json
+│   │   └── sub-3503_run-1_T1w.nii.gz
+│   ├── sub-3503_scans.json
+│   └── sub-3503_scans.tsv
+├── sub-3515
+│   ├── anat
+│   │   ├── sub-3515_run-1_T1w.json
+│   │   └── sub-3515_run-1_T1w.nii.gz
+│   ├── sub-3515_scans.json
+│   └── sub-3515_scans.tsv
+├── sub-3517
+│   ├── anat
+│   │   ├── sub-3517_run-1_T1w.json
+│   │   └── sub-3517_run-1_T1w.nii.gz
+│   ├── sub-3517_scans.json
+│   └── sub-3517_scans.tsv
+├── sub-3518
+│   ├── anat
+│   │   ├── sub-3518_run-1_T1w.json
+│   │   └── sub-3518_run-1_T1w.nii.gz
+│   ├── sub-3518_scans.json
+│   └── sub-3518_scans.tsv
+├── sub-3519
+│   ├── anat
+│   │   ├── sub-3519_run-1_T1w.json
+│   │   └── sub-3519_run-1_T1w.nii.gz
+│   ├── sub-3519_scans.json
+│   └── sub-3519_scans.tsv
+├── sub-3521
+│   ├── anat
+│   │   ├── sub-3521_run-1_T1w.json
+│   │   └── sub-3521_run-1_T1w.nii.gz
+│   ├── sub-3521_scans.json
+│   └── sub-3521_scans.tsv
+├── sub-3523
+│   ├── anat
+│   │   ├── sub-3523_run-1_T1w.json
+│   │   └── sub-3523_run-1_T1w.nii.gz
+│   ├── sub-3523_scans.json
+│   └── sub-3523_scans.tsv
+├── sub-3525
+│   ├── anat
+│   │   ├── sub-3525_run-1_T1w.json
+│   │   └── sub-3525_run-1_T1w.nii.gz
+│   ├── sub-3525_scans.json
+│   └── sub-3525_scans.tsv
+├── sub-3526
+│   ├── anat
+│   │   ├── sub-3526_run-1_T1w.json
+│   │   └── sub-3526_run-1_T1w.nii.gz
+│   ├── sub-3526_scans.json
+│   └── sub-3526_scans.tsv
+├── sub-3527
+│   ├── anat
+│   │   ├── sub-3527_run-1_T1w.json
+│   │   └── sub-3527_run-1_T1w.nii.gz
+│   ├── sub-3527_scans.json
+│   └── sub-3527_scans.tsv
+├── sub-3541
+│   ├── anat
+│   │   ├── sub-3541_run-1_T1w.json
+│   │   └── sub-3541_run-1_T1w.nii.gz
+│   ├── sub-3541_scans.json
+│   └── sub-3541_scans.tsv
+├── sub-3551
+│   ├── anat
+│   │   ├── sub-3551_run-1_T1w.json
+│   │   └── sub-3551_run-1_T1w.nii.gz
+│   ├── sub-3551_scans.json
+│   └── sub-3551_scans.tsv
+├── sub-3554
+│   ├── anat
+│   │   ├── sub-3554_run-1_T1w.json
+│   │   └── sub-3554_run-1_T1w.nii.gz
+│   ├── sub-3554_scans.json
+│   └── sub-3554_scans.tsv
+├── sub-3555
+│   ├── anat
+│   │   ├── sub-3555_run-1_T1w.json
+│   │   └── sub-3555_run-1_T1w.nii.gz
+│   ├── sub-3555_scans.json
+│   └── sub-3555_scans.tsv
+├── sub-3563
+│   ├── anat
+│   │   ├── sub-3563_run-1_T1w.json
+│   │   └── sub-3563_run-1_T1w.nii.gz
+│   ├── sub-3563_scans.json
+│   └── sub-3563_scans.tsv
+├── sub-3565
+│   ├── anat
+│   │   ├── sub-3565_run-1_T1w.json
+│   │   └── sub-3565_run-1_T1w.nii.gz
+│   ├── sub-3565_scans.json
+│   └── sub-3565_scans.tsv
+├── sub-3569
+│   ├── anat
+│   │   ├── sub-3569_run-1_T1w.json
+│   │   └── sub-3569_run-1_T1w.nii.gz
+│   ├── sub-3569_scans.json
+│   └── sub-3569_scans.tsv
+├── sub-3570
+│   ├── anat
+│   │   ├── sub-3570_run-1_T1w.json
+│   │   └── sub-3570_run-1_T1w.nii.gz
+│   ├── sub-3570_scans.json
+│   └── sub-3570_scans.tsv
+├── sub-3571
+│   ├── anat
+│   │   ├── sub-3571_run-1_T1w.json
+│   │   └── sub-3571_run-1_T1w.nii.gz
+│   ├── sub-3571_scans.json
+│   └── sub-3571_scans.tsv
+├── sub-3572
+│   ├── anat
+│   │   ├── sub-3572_run-1_T1w.json
+│   │   └── sub-3572_run-1_T1w.nii.gz
+│   ├── sub-3572_scans.json
+│   └── sub-3572_scans.tsv
+├── sub-3600
+│   ├── anat
+│   │   ├── sub-3600_run-1_T1w.json
+│   │   └── sub-3600_run-1_T1w.nii.gz
+│   ├── sub-3600_scans.json
+│   └── sub-3600_scans.tsv
+├── sub-3610
+│   ├── anat
+│   │   ├── sub-3610_run-1_T1w.json
+│   │   └── sub-3610_run-1_T1w.nii.gz
+│   ├── sub-3610_scans.json
+│   └── sub-3610_scans.tsv
+├── sub-3611
+│   ├── anat
+│   │   ├── sub-3611_run-1_T1w.json
+│   │   └── sub-3611_run-1_T1w.nii.gz
+│   ├── sub-3611_scans.json
+│   └── sub-3611_scans.tsv
+├── sub-3613
+│   ├── anat
+│   │   ├── sub-3613_run-1_T1w.json
+│   │   └── sub-3613_run-1_T1w.nii.gz
+│   ├── sub-3613_scans.json
+│   └── sub-3613_scans.tsv
+├── sub-3614
+│   ├── anat
+│   │   ├── sub-3614_run-1_T1w.json
+│   │   └── sub-3614_run-1_T1w.nii.gz
+│   ├── sub-3614_scans.json
+│   └── sub-3614_scans.tsv
+├── sub-3615
+│   ├── anat
+│   │   ├── sub-3615_run-1_T1w.json
+│   │   └── sub-3615_run-1_T1w.nii.gz
+│   ├── sub-3615_scans.json
+│   └── sub-3615_scans.tsv
+├── sub-3620
+│   ├── anat
+│   │   ├── sub-3620_run-1_T1w.json
+│   │   └── sub-3620_run-1_T1w.nii.gz
+│   ├── sub-3620_scans.json
+│   └── sub-3620_scans.tsv
+├── sub-3624
+│   ├── anat
+│   │   ├── sub-3624_run-1_T1w.json
+│   │   └── sub-3624_run-1_T1w.nii.gz
+│   ├── sub-3624_scans.json
+│   └── sub-3624_scans.tsv
+├── sub-3627
+│   ├── anat
+│   │   ├── sub-3627_run-1_T1w.json
+│   │   └── sub-3627_run-1_T1w.nii.gz
+│   ├── sub-3627_scans.json
+│   └── sub-3627_scans.tsv
+├── sub-3635
+│   ├── anat
+│   │   ├── sub-3635_run-1_T1w.json
+│   │   └── sub-3635_run-1_T1w.nii.gz
+│   ├── sub-3635_scans.json
+│   └── sub-3635_scans.tsv
+├── sub-3636
+│   ├── anat
+│   │   ├── sub-3636_run-1_T1w.json
+│   │   └── sub-3636_run-1_T1w.nii.gz
+│   ├── sub-3636_scans.json
+│   └── sub-3636_scans.tsv
+├── sub-3637
+│   ├── anat
+│   │   ├── sub-3637_run-1_T1w.json
+│   │   └── sub-3637_run-1_T1w.nii.gz
+│   ├── sub-3637_scans.json
+│   └── sub-3637_scans.tsv
+├── sub-3750
+│   ├── anat
+│   │   ├── sub-3750_run-1_T1w.json
+│   │   └── sub-3750_run-1_T1w.nii.gz
+│   ├── sub-3750_scans.json
+│   └── sub-3750_scans.tsv
+├── sub-3756
+│   ├── anat
+│   │   ├── sub-3756_run-1_T1w.json
+│   │   └── sub-3756_run-1_T1w.nii.gz
+│   ├── sub-3756_scans.json
+│   └── sub-3756_scans.tsv
+├── sub-3759
+│   ├── anat
+│   │   ├── sub-3759_run-1_T1w.json
+│   │   └── sub-3759_run-1_T1w.nii.gz
+│   ├── sub-3759_scans.json
+│   └── sub-3759_scans.tsv
+├── sub-3765
+│   ├── anat
+│   │   ├── sub-3765_run-1_T1w.json
+│   │   └── sub-3765_run-1_T1w.nii.gz
+│   ├── sub-3765_scans.json
+│   └── sub-3765_scans.tsv
+├── sub-3767
+│   ├── anat
+│   │   ├── sub-3767_run-1_T1w.json
+│   │   └── sub-3767_run-1_T1w.nii.gz
+│   ├── sub-3767_scans.json
+│   └── sub-3767_scans.tsv
+├── sub-3768
+│   ├── anat
+│   │   ├── sub-3768_run-1_T1w.json
+│   │   └── sub-3768_run-1_T1w.nii.gz
+│   ├── sub-3768_scans.json
+│   └── sub-3768_scans.tsv
+├── sub-3769
+│   ├── anat
+│   │   ├── sub-3769_run-1_T1w.json
+│   │   └── sub-3769_run-1_T1w.nii.gz
+│   ├── sub-3769_scans.json
+│   └── sub-3769_scans.tsv
+├── sub-3779
+│   ├── anat
+│   │   ├── sub-3779_run-1_T1w.json
+│   │   └── sub-3779_run-1_T1w.nii.gz
+│   ├── sub-3779_scans.json
+│   └── sub-3779_scans.tsv
+├── sub-3803
+│   ├── anat
+│   │   ├── sub-3803_run-1_T1w.json
+│   │   └── sub-3803_run-1_T1w.nii.gz
+│   ├── sub-3803_scans.json
+│   └── sub-3803_scans.tsv
+├── sub-3804
+│   ├── anat
+│   │   ├── sub-3804_run-1_T1w.json
+│   │   └── sub-3804_run-1_T1w.nii.gz
+│   ├── sub-3804_scans.json
+│   └── sub-3804_scans.tsv
+├── sub-3805
+│   ├── anat
+│   │   ├── sub-3805_run-1_T1w.json
+│   │   └── sub-3805_run-1_T1w.nii.gz
+│   ├── sub-3805_scans.json
+│   └── sub-3805_scans.tsv
+├── sub-3806
+│   ├── anat
+│   │   ├── sub-3806_run-1_T1w.json
+│   │   └── sub-3806_run-1_T1w.nii.gz
+│   ├── sub-3806_scans.json
+│   └── sub-3806_scans.tsv
+├── sub-3807
+│   ├── anat
+│   │   ├── sub-3807_run-1_T1w.json
+│   │   └── sub-3807_run-1_T1w.nii.gz
+│   ├── sub-3807_scans.json
+│   └── sub-3807_scans.tsv
+├── sub-3809
+│   ├── anat
+│   │   ├── sub-3809_run-1_T1w.json
+│   │   └── sub-3809_run-1_T1w.nii.gz
+│   ├── sub-3809_scans.json
+│   └── sub-3809_scans.tsv
+├── sub-3811
+│   ├── anat
+│   │   ├── sub-3811_run-1_T1w.json
+│   │   └── sub-3811_run-1_T1w.nii.gz
+│   ├── sub-3811_scans.json
+│   └── sub-3811_scans.tsv
+├── sub-3812
+│   ├── anat
+│   │   ├── sub-3812_run-1_T1w.json
+│   │   └── sub-3812_run-1_T1w.nii.gz
+│   ├── sub-3812_scans.json
+│   └── sub-3812_scans.tsv
+├── sub-3813
+│   ├── anat
+│   │   ├── sub-3813_run-1_T1w.json
+│   │   └── sub-3813_run-1_T1w.nii.gz
+│   ├── sub-3813_scans.json
+│   └── sub-3813_scans.tsv
+├── sub-3816
+│   ├── anat
+│   │   ├── sub-3816_run-1_T1w.json
+│   │   └── sub-3816_run-1_T1w.nii.gz
+│   ├── sub-3816_scans.json
+│   └── sub-3816_scans.tsv
+├── sub-3817
+│   ├── anat
+│   │   ├── sub-3817_run-1_T1w.json
+│   │   └── sub-3817_run-1_T1w.nii.gz
+│   ├── sub-3817_scans.json
+│   └── sub-3817_scans.tsv
+├── sub-3850
+│   ├── anat
+│   │   ├── sub-3850_run-1_T1w.json
+│   │   └── sub-3850_run-1_T1w.nii.gz
+│   ├── sub-3850_scans.json
+│   └── sub-3850_scans.tsv
+├── sub-3851
+│   ├── anat
+│   │   ├── sub-3851_run-1_T1w.json
+│   │   └── sub-3851_run-1_T1w.nii.gz
+│   ├── sub-3851_scans.json
+│   └── sub-3851_scans.tsv
+├── sub-3852
+│   ├── anat
+│   │   ├── sub-3852_run-1_T1w.json
+│   │   └── sub-3852_run-1_T1w.nii.gz
+│   ├── sub-3852_scans.json
+│   └── sub-3852_scans.tsv
+├── sub-3853
+│   ├── anat
+│   │   ├── sub-3853_run-1_T1w.json
+│   │   └── sub-3853_run-1_T1w.nii.gz
+│   ├── sub-3853_scans.json
+│   └── sub-3853_scans.tsv
+├── sub-3854
+│   ├── anat
+│   │   ├── sub-3854_run-1_T1w.json
+│   │   └── sub-3854_run-1_T1w.nii.gz
+│   ├── sub-3854_scans.json
+│   └── sub-3854_scans.tsv
+├── sub-3855
+│   ├── anat
+│   │   ├── sub-3855_run-1_T1w.json
+│   │   └── sub-3855_run-1_T1w.nii.gz
+│   ├── sub-3855_scans.json
+│   └── sub-3855_scans.tsv
+├── sub-3857
+│   ├── anat
+│   │   ├── sub-3857_run-1_T1w.json
+│   │   └── sub-3857_run-1_T1w.nii.gz
+│   ├── sub-3857_scans.json
+│   └── sub-3857_scans.tsv
+├── sub-3859
+│   ├── anat
+│   │   ├── sub-3859_run-1_T1w.json
+│   │   └── sub-3859_run-1_T1w.nii.gz
+│   ├── sub-3859_scans.json
+│   └── sub-3859_scans.tsv
+├── sub-4004
+│   ├── anat
+│   │   ├── sub-4004_run-1_T1w.json
+│   │   └── sub-4004_run-1_T1w.nii.gz
+│   ├── sub-4004_scans.json
+│   └── sub-4004_scans.tsv
+├── sub-4010
+│   ├── anat
+│   │   ├── sub-4010_run-1_T1w.json
+│   │   └── sub-4010_run-1_T1w.nii.gz
+│   ├── sub-4010_scans.json
+│   └── sub-4010_scans.tsv
+├── sub-4018
+│   ├── anat
+│   │   ├── sub-4018_run-1_T1w.json
+│   │   └── sub-4018_run-1_T1w.nii.gz
+│   ├── sub-4018_scans.json
+│   └── sub-4018_scans.tsv
+├── sub-4032
+│   ├── anat
+│   │   ├── sub-4032_run-1_T1w.json
+│   │   └── sub-4032_run-1_T1w.nii.gz
+│   ├── sub-4032_scans.json
+│   └── sub-4032_scans.tsv
+├── sub-4067
+│   ├── anat
+│   │   ├── sub-4067_run-1_T1w.json
+│   │   └── sub-4067_run-1_T1w.nii.gz
+│   ├── sub-4067_scans.json
+│   └── sub-4067_scans.tsv
+├── sub-4085
+│   ├── anat
+│   │   ├── sub-4085_run-1_T1w.json
+│   │   └── sub-4085_run-1_T1w.nii.gz
+│   ├── sub-4085_scans.json
+│   └── sub-4085_scans.tsv
+└── sub-4139
+    ├── anat
+    │   ├── sub-4139_run-1_T1w.json
+    │   └── sub-4139_run-1_T1w.nii.gz
+    ├── sub-4139_scans.json
+    └── sub-4139_scans.tsv
+
+232 directories, 469 files

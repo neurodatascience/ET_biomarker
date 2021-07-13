@@ -38,11 +38,11 @@ fi
 
 rm *.ses
 
-chmod 777 ${CODE_DIR}/heudiconv_run1.slurm
-chmod 777 ${CODE_DIR}/heudiconv_run1.format
-chmod 777 ${CODE_DIR}/heudiconv_run2.sh
-chmod 777 ${CODE_DIR}/heudiconv_run2.slurm
-chmod 777 ${CODE_DIR}/heudiconv_run2.format
+chmod +x ${CODE_DIR}/heudiconv_run1.slurm
+chmod +x ${CODE_DIR}/heudiconv_run1.format
+chmod +x ${CODE_DIR}/heudiconv_run2.sh
+chmod +x ${CODE_DIR}/heudiconv_run2.slurm
+chmod +x ${CODE_DIR}/heudiconv_run2.format
 
 # get all subject dicom foldernames.
 find ${DATA_DIR} -maxdepth ${SEARCH_LV} -mindepth ${SEARCH_LV} >> ${SUB_LIST}
