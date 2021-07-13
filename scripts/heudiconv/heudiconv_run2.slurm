@@ -47,12 +47,10 @@ fi
 subject_id=${DIR_STR[@]:DATA_DIR_LEN_OFFSET}
 echo ${DATA_NAME} ${subject_id}
 
-singularity run --cleanenv \
--B ${WD_DIR}:${SINGULARITY_MNT_DIR} \
--B ${CODES_DIR}:${SINGULARITY_CODES_DIR} ${CON_IMG} \
+singularity run --cleanenv -B ${WD_DIR}:${SINGULARITY_MNT_DIR} ${CON_IMG} \
 -d ${SINGULARITY_MNT_DIR}/${DATA_NAME}/{subject}/*/*/*/*.dcm \
 -s ${subject_id} \
--f ${SINGULARITY_CODES_DIR}/${HEURISTIC_FILE} \
+-f ${SINGULARITY_MNT_DIR}/ET_biomarker/scripts/heudiconv/${HEURISTIC_FILE} \
 --grouping studyUID \
 -c dcm2niix -b --overwrite --minmeta \
 -o ${SINGULARITY_OUT_DIR}

@@ -15,7 +15,7 @@ def infotodict(seqinfo):
     seqitem: run number during scanning
     subindex: sub index within group
     """
-    t1w = create_key('sub-{subject}/{session}/anat/sub-{subject}_run-{item:01d}_T1w')
+    t1w = create_key('sub-{subject}/anat/sub-{subject}_run-{item:01d}_T1w')
     #t2w = create_key('sub-{subject}/{session}/anat/sub-{subject}_run-{item:01d}_T2w')
     #dwi = create_key('sub-{subject}/{session}/dwi/sub-{subject}_run-{item:01d}_dwi')
     #dwi_fieldmap = create_key('sub-{subject}/{session}/fmap/sub-{subject}_acq-dwi_run-{item:01d}_fieldmap')
