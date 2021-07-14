@@ -68,11 +68,11 @@ find ${LOCAL_FREESURFER_DIR}/sub-$SUB_ID/ -name "*IsRunning*" -type f -delete
 # Compose the command line
 cmd="${SINGULARITY_CMD} /data /output participant --participant-label $SUB_ID \
 -w /work --output-spaces MNI152NLin2009cAsym:res-2 anat fsnative fsaverage5 \
---bids-filter-file /codes/pre_opt.json --fs-subjects-dir /fsdir \
+--fs-subjects-dir /fsdir \
 --fs-license-file /home/fmriprep/.freesurfer/license.txt \
 --cifti-out 91k --return-all-components --anat-only \
 --write-graph --skip_bids_validation --notrack --resource-monitor"
-# --bids-filter-file ${BIDS_FILTER} \
+# --bids-filter-file ${BIDS_FILTER} e.g.  --bids-filter-file /codes/pre_opt.json\
 # Setup done, run the command
 echo Running task ${SLURM_ARRAY_TASK_ID}
 echo Commandline: $cmd
