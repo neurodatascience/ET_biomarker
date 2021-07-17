@@ -20,7 +20,7 @@ SUB_ID=(${@:3:1})
 WD_DIR=${HOME}/scratch
 DATA_DIR=${WD_DIR}/${DATA_NAME}
 BIDS_DIR=${DATA_DIR}_BIDS
-DERIVS_DIR=${DATA_DIR}_fmriprep_sp-nfs_20.1.1/${SUB_ID}_${SES_ID}
+DERIVS_DIR=${DATA_DIR}_fmriprep_anat_20.2.0
 CODE_DIR=${WD_DIR}/ET_biomarker/scripts/fmriprep
 
 echo ${BIDS_DIR}***${DERIVS_DIR}***${CON_IMG}***${DATA_NAME}***${SUB_ID}***${SES_ID}

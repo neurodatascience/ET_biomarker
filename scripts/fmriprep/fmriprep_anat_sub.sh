@@ -19,7 +19,7 @@ chmod +x ${CODE_COLLECT}
 
 echo "Step1: subjects folder created!"
 echo "Step2: starting fmriprep-SP!"
-echo "Submitting sub-1690, sub-1920, sub-2400, sub-3900 ses-2!"
+echo "Submitting sub-3274, sub-3523, sub-3765, sub-3900 ses-2!"
 
 # err 22688556
 SUB_ID=3274
@@ -30,6 +30,5 @@ sbatch ${CODE_SLURM} ${DATA_NAME} ${CON_IMG} ${SUB_ID} >> ${LOG_DIR}
 # err 22688314
 SUB_ID=3765
 sbatch ${CODE_SLURM} ${DATA_NAME} ${CON_IMG} ${SUB_ID} >> ${LOG_DIR}
-echo "Submitting sub-1690, sub-1920, sub-2400, sub-3900 ses-3!"
 
 echo "Submission finished!"
