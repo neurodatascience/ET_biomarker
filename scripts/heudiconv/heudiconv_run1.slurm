@@ -4,7 +4,6 @@
 #SBATCH --account=rpp-aevans-ab
 #SBATCH --cpus-per-task=8
 #SBATCH --mem-per-cpu=4GB
-#SBATCH --array=1-117
 # Outputs ----------------------------------
 #SBATCH -o %x-%A-%a_%j.out
 #SBATCH -e %x-%A-%a_%j.err
@@ -14,6 +13,7 @@
 DATA_NAME=(${@:1:1})
 echo ${DATA_NAME}
 
+## SBATCH --array=1-117
 # PPMI N=117
 # ADNI N=???
 # MNI-ET N = 42
@@ -57,7 +57,7 @@ echo ${DATA_NAME} ${subject_id}
 #ses_id=$(sed -n "${i_ses}p" ${subject_id}.ses )
 singularity run -B ${WD_DIR}:${SINGULARITY_MNT_DIR} \
 ${CON_IMG_DIR}/heudiconv_v0.8.0.simg \
--d ${SINGULARITY_MNT_DIR}/${DATA_NAME}/{subject}/*/*/*/*.dcm \
+-d ${SINGULARITY_MNT_DIR}/${DATA_NAME}/{subject}/*/*/{session}/*.dcm \
 -s ${subject_id} -c none \
 -f convertall \
 -o ${SINGULARITY_OUT_DIR} \

@@ -80,4 +80,5 @@ fi
 echo "Step2: folders created!"
 
 # submit batch job
-sbatch ${CODE_DIR}/heudiconv_run1.slurm ${DATA_NAME} >> ${LOG_FILE_r1}
+sbatch --array=1-${N_SUB} ${CODE_DIR}/heudiconv_run1.slurm ${DATA_NAME} >> ${LOG_FILE_r1}
+# --array=1-$(( $( wc -l $STUDY/data/participants.tsv | cut -f1 -d' ' ) - 1 ))
