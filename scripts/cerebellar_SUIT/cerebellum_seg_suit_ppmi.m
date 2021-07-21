@@ -3,7 +3,11 @@ clc; clear; close all force;
 
 base_path = fullfile('C:\Users\Vincent\Desktop\work_dir');
 out_path = fullfile(base_path, 'output'); addpath(out_path);
-sub_list_file = fullfile(base_path, 'ET_biomarker', 'tab_data', 'PPMI_subjects.list'); %  subjects_suit.list
+codes_dir =  fullfile(base_path, 'ET_biomarker', 'tab_data');
+sub_list_file = fullfile(codes_dir, 'PPMI_subjects.list'); %  read in: subjects_suit.list
+MDTB_tab_out_file = fullfile(codes_dir, 'res_PPMI_MDTB10.csv'); %  Output: res_PPMI_MDTB10.csv
+SUIT_tab_out_file = fullfile(codes_dir, 'res_PPMI_SUIT34.csv'); %  Output: subjects_suit.list
+
 %et_data_path = fullfile(base_path,'ET_fmriprep_anat_20.2.0','fmriprep'); addpath(et_data_path); 
 %pd_data_path = fullfile(base_path,'PD_fmriprep_anat_20.2.0','fmriprep'); addpath(pd_data_path); 
 %nc_data_path = fullfile(base_path,'NC_fmriprep_anat_20.2.0','fmriprep'); addpath(nc_data_path); 
@@ -17,7 +21,8 @@ atlas_path = fullfile(out_path, 'm_tools', 'atlasPackage', 'atlasesMNI'); addpat
 atlas_MDTB10=fullfile(spm_path, 'toolbox/suit/atlasesSUIT/MDTB_10Regions.nii');
 atlas_SUIT=fullfile(spm_path, 'toolbox/suit/atlasesSUIT/Lobules-SUIT.nii');
 
-atlas='SUIT'; % atlas='SUIT';
+%atlas='SUIT'; % atlas='SUIT';
+atlas='MDTB';
 switch atlas
     case 'MDTB', curr_atlas=atlas_MDTB10; curr_atlas_str='iw_MDTB_10Regions_u_a_';
     otherwise, curr_atlas = atlas_SUIT; curr_atlas_str='iw_Lobules-SUIT_u_a_';
@@ -29,7 +34,7 @@ roi_tab = NaN(data.n_sub, num_lobules);
 
 %% sub list, unzip all nii.gz to .nii
 data.t1_in={}; data.nii_out={}; data.t1_name={}; data.roi={}; data.mask={}; data.roi_sum={};
-data.gm={}; data.wm={}; data.aff={}; data.deform={}; data.nii_suit={};
+data.gm={}; data.wm={}; data.aff={}; data.deform={}; data.nii_suit={}; data.norm_pass={}; data.seg_pass={};
 for i_ = 1:data.n_sub
     t1_name = [data.participant_id(i_,:) '_run-1_desc-preproc_T1w.nii.gz'];
     data.t1_name{end+1}=t1_name(1:end-7);
@@ -44,15 +49,21 @@ end
 %% initialize spm
 spm fmri
 % normalization
-% debuger 
-sub_str='sub-3569'
-for tmp_i = 1:data.n_sub
-    if data.participant_id(tmp_i,:)==sub_str
-        disp([num2str(tmp_i), ':', sub_str])
-        target_index=tmp_i+1
-    end
-end
-data.participant_id(target_index,:)
+% debuger for normalization 
+% sub_str='sub-3859';
+% for tmp_i = 1:data.n_sub
+%     if data.participant_id(tmp_i,:)==sub_str
+%         disp([num2str(tmp_i), ':', sub_str])
+%         target_index=tmp_i+1;
+%         start_index=target_index+1;
+%     end
+% end
+% % target_index=75; start_index=target_index+1;
+% disp(['Err for:', num2str(target_index)])
+% data.participant_id(target_index,:)
+% disp(['Start with: ', num2str(start_index)])
+% data.participant_id(start_index,:)
+
 %% bug report during Normalization
 % index=10, sub-3112 reporting problem, skipped.
 % index=26, 'sub-3264' reporting problem, skipped.
@@ -67,63 +78,111 @@ data.participant_id(target_index,:)
 % index=65, 'sub-3563' reporting problem, skipped.
 % index=66, 'sub-3565' reporting problem, skipped.
 % index=68, 'sub-3570' reporting problem, skipped.
-
-norm_start_point=69;
+% index=74, 'sub-3613' reporting problem, skipped.
+% index=75, 'sub-3614' reporting problem, skipped.
+% index=98, 'sub-3812' reporting problem, skipped.
+% index=100, 'sub-3816' reporting problem, skipped.
+% index=101, 'sub-3817' reporting problem, skipped.
+% index=110, 'sub-4004' reporting problem, skipped.
+ppmi_norm_err_sub_index = [10,26,27,28,29,31,46,62,63,64,65,66,68,74,75,98,100,101,110];
+norm_start_point=1;
 for i_ = 1:data.n_sub
-    tic
+    %tic
     %disp(['isolateing + normalization ', num2str(i_),' in ', num2str(data.n_sub), ' :', data.participant_id(i_,:)]);
     %suit_isolate_seg({image_file}); % segmentation: cerebelum isolation
+    data.norm_pass{i_}=1;
     % normalize to SUIT space, generate affine and deformation field.
     if i_>= norm_start_point
         job_n.subjND(i_-norm_start_point+1).gray={fullfile(output_path,data.gm{i_})}; 
         job_n.subjND(i_-norm_start_point+1).white={ fullfile(output_path,data.wm{i_})};
         job_n.subjND(i_-norm_start_point+1).isolation={fullfile(output_path,data.mask{i_})};
     end
-    toc
+    %toc
 end
-suit_normalize_dartel(job_n) % map subject space -> SUIT space
+%suit_normalize_dartel(job_n) % map subject space -> SUIT space
 
-% Rerun segmentation and normalization for origin problem subjects:
-% Run1: ['sub-0004','sub-0030','sub-0035','sub-0098','sub-0125','sub-0132','sub-0081', 'sub-0119','sub-0122',...
-%    'sub-0134','sub-0140','sub-0141','sub-0142','sub-0143','sub-1012','sub-1230']
-% Run2: err_sub=['sub-0004','sub-1450','sub-1500', 'sub-1920', 'sub-2400', 'sub-3700', 'sub-3900', 'sub-0041', 'sub-0102', 'sub-0108'];
-%atlas='SUIT';
-% Run3: err_sub=['sub-0041'];
-% Run4
-err_sub=['sub-1500'];
-err_ind=[];
-k=1;
-for i_ = 1:data.n_sub
-    if contains(err_sub,data.participant_participant_id(i_,:))
-        err_ind(end+1)=i_;
-        tic
-        disp([num2str(i_),'  i  ------  k  ',int2str(k)])
-        suit_isolate_seg({data.nii_out{i_}},'maskp', 100); % segmentation: cerebelum isolation
-        disp(['normalization ', num2str(i_),' in ', num2str(data.n_sub), ' :', data.participant_participant_id(i_,:)]);
-        %normalize to SUIT space, generate affine and deformation field.
-        aajob_err.subjND(k).gray={fullfile(output_path,data.gm{i_})}; 
-        job_err.subjND(k).white={ fullfile(output_path,data.wm{i_})};
-        job_err.subjND(k).isolation={fullfile(output_path,data.mask{i_})}; 
-        k=k+1;
-        toc
+for i = 1:length(ppmi_norm_err_sub_index)
+    %disp(data.participant_id(ppmi_norm_err_sub_index(i),:)); % visual check
+    data.norm_pass{ppmi_norm_err_sub_index(i)}= 0;
+end
+% disp(data.norm_pass) % visual check
+%% rerun normalization error subjects
+% err_ind=[];
+% k=1;
+% for i_ = 1:data.n_sub
+%     if contains(err_sub,data.participant_id(i_,:))
+%         err_ind(end+1)=i_;
+%         tic
+%         disp([num2str(i_),'  i  ------  k  ',int2str(k)])
+%         suit_isolate_seg({data.nii_out{i_}},'maskp', 100); % segmentation: cerebelum isolation
+%         disp(['normalization ', num2str(i_),' in ', num2str(data.n_sub), ' :', data.participant_participant_id(i_,:)]);
+%         %normalize to SUIT space, generate affine and deformation field.
+%         aajob_err.subjND(k).gray={fullfile(output_path,data.gm{i_})}; 
+%         job_err.subjND(k).white={ fullfile(output_path,data.wm{i_})};
+%         job_err.subjND(k).isolation={fullfile(output_path,data.mask{i_})}; 
+%         k=k+1;
+%         toc
+%     end
+% end
+% suit_normalize_dartel(job_err) % map subject space -> SUIT space
+% i_=err_ind(1);
+% disp(['registering to atlas ', num2str(i_),' in ', num2str(data.n_sub), ' :', data.participant_participant_id(i_,:)]);
+% job_s.Affine={fullfile(output_path,data.aff{i_})};
+% job_s.flowfield={fullfile(output_path,data.deform{i_})};
+% job_s.resample={curr_atlas};
+% job_s.ref={fullfile(output_path, data.gm{i_})};
+% suit_reslice_dartel_inv(job_s); % registration from atlas to indivparticipant_idual
+    
+%fix single subject normalization: sub-002
+% rerun_norm_err_sub_index =[38, 100];
+% for i_ = 1:length(rerun_norm_err_sub_index)
+%     i_data = rerun_norm_err_sub_index(i_);
+%     disp(['Reruning: ', num2str(i_data), data.participant_id(i_data,:)])
+%     job_norm1_err.subjND(i_).gray={fullfile(output_path,data.gm{i_data})}; 
+%     job_norm1_err.subjND(i_).white={ fullfile(output_path,data.wm{i_data})};
+%     job_norm1_err.subjND(i_).isolation={fullfile(output_path,data.mask{i_data})}; 
+% end
+% suit_normalize_dartel(job_norm1_err)
+% Reruning: sub-3350: Warning: Matrix is singular, close to singular or badly scaled. Results may be inaccurate. RCOND = NaN. 
+% Reruning: sub-3816: Error using file2mat File is smaller than the dimensions say it should be.
+%% register atlas to indivparticipant_idual can calculate vol size
+for i_ = 101:data.n_sub
+    if data.norm_pass{i_}==1
+        disp(['registering to atlas ', num2str(i_),' in ', num2str(data.n_sub), ' :', data.participant_id(i_,:)]);
+        job_s.Affine={fullfile(output_path,data.aff{i_})};
+        job_s.flowfield={fullfile(output_path,data.deform{i_})};
+        job_s.resample={curr_atlas};
+        job_s.ref={fullfile(output_path, data.gm{i_})};
+        %tic
+        suit_reslice_dartel_inv(job_s); % registration from atlas to indivparticipant_idual
+        %toc
+        data.seg_pass{i_}=1;
+        V=spm_vol(fullfile(output_path, [curr_atlas_str, data.gm{i_}]));
+        X=spm_read_vols(V);
+        lobule_vol_=zeros(num_lobules,1);
+        for i_lob=1:num_lobules
+            lobule_vol_(i_lob) = length(find(X==i_lob));
+        end
+        roi_tab(i_,:)=lobule_vol_;
+        data.lobules{end+1}=lobule_vol_;
     end
 end
-suit_normalize_dartel(job_err) % map subject space -> SUIT space
-i_=err_ind(1);
-disp(['registering to atlas ', num2str(i_),' in ', num2str(data.n_sub), ' :', data.participant_participant_id(i_,:)]);
-job_s.Affine={fullfile(output_path,data.aff{i_})};
-job_s.flowfield={fullfile(output_path,data.deform{i_})};
-job_s.resample={curr_atlas};
-job_s.ref={fullfile(output_path, data.gm{i_})};
-suit_reslice_dartel_inv(job_s); % registration from atlas to indivparticipant_idual
-    
-% fix single subject normalization: sub-002
-% for i_=1:length(err_ind)
-%     job_norm1.subjND(1).gray={fullfile(output_path,data.gm{i_})}; 
-%     job_norm1.subjND(1).white={ fullfile(output_path,data.wm{i_})};
-%     job_norm1.subjND(1).isolation={fullfile(output_path,data.mask{i_})}; 
-%     suit_normalize_dartel(job_norm1)
-% end
+% warnings:
+% registering to atlas 38 in 116 :sub-3350 | 
+% Warning: Matrix is singular, close to singular or badly scaled. Results may be inaccurate. RCOND = NaN. 
+% Unable to read file 'C:\Users\Vincent\Desktop\work_dir\output\PPMI_SUIT_res\Affine_sub-3816_run-1_desc-preproc_T1w_seg1.mat'. No such
+% file or directory. % registering to atlas 100 in 116 :sub-3816
+
+switch atlas
+    case 'MDTB', csvwrite(MDTB_tab_out_file, roi_tab);
+    otherwise,   csvwrite(SUIT_tab_out_file, roi_tab);
+end
+
+%% test code
+% summarize volumes (no participant_idea what we need this function for)
+% suit_ROI_summarize(data.nii_suit,'atlas', atlas_MDTB10);
+% suit_ROI_summarize(data.nii_suit,'atlas', atlas_SUIT);
+
 %% DBM and atlas to indivparticipant_idual.
 % for i_ = 1:data.n_sub
 %     %disp(['applying normalization ', num2str(i_),' in ', num2str(data.n_sub), ' :', data.participant_id(i_,:)]);
@@ -136,36 +195,3 @@ suit_reslice_dartel_inv(job_s); % registration from atlas to indivparticipant_id
 %     job_a.subj(i_).mask={fullfile(output_path,data.mask{i_})};
 % end
 %suit_reslice_dartel(job_a)
-
-%% register atlas to indivparticipant_idual can calculate vol size
-for i_ = 1:data.n_sub
-    disp(['registering to atlas ', num2str(i_),' in ', num2str(data.n_sub), ' :', data.participant_id(i_,:)]);
-    job_s.Affine={fullfile(output_path,data.aff{i_})};
-    job_s.flowfield={fullfile(output_path,data.deform{i_})};
-    job_s.resample={curr_atlas};
-    job_s.ref={fullfile(output_path, data.gm{i_})};
-    %tic
-    suit_reslice_dartel_inv(job_s); % registration from atlas to indivparticipant_idual
-    %toc
-    V=spm_vol(fullfile(output_path, [curr_atlas_str, data.gm{i_}]));
-    X=spm_read_vols(V);
-    lobule_vol_=zeros(num_lobules,1);
-    for i_lob=1:num_lobules
-        lobule_vol_(i_lob) = length(find(X==i_lob));
-    end
-    roi_tab(i_,:)=lobule_vol_;
-    data.lobules{end+1}=lobule_vol_;
-end
-
-switch atlas
-    case 'MDTB', csvwrite(fullfile(output_path, 'res', 'res_MDTB10.csv'),roi_tab);
-    otherwise,   csvwrite(fullfile(output_path, 'res', 'res_SUIT34.csv'),roi_tab);
-end
-
-%% test code
-%suit_reslice_inv(curr_atlas,fullfile(output_path,data.aff{i_}))
-
-%% old code
-% summarize volumes (no participant_idea what we need this function for)
-% suit_ROI_summarize(data.nii_suit,'atlas', atlas_MDTB10);
-% suit_ROI_summarize(data.nii_suit,'atlas', atlas_SUIT);
