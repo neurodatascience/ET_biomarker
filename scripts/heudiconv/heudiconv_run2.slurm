@@ -39,20 +39,34 @@ DIR_STR=${DIR//\//" " }
 #Get subject ID
 if [ ${DATA_NAME} = 'PPMI' ]; then
     DATA_DIR_LEN_OFFSET=32
+    subject_id=${DIR_STR[@]:DATA_DIR_LEN_OFFSET}
+    echo ${DATA_NAME} * ${subject_id} 
+    singularity run --cleanenv -B ${WD_DIR}:${SINGULARITY_MNT_DIR} ${CON_IMG} \
+    -d ${SINGULARITY_MNT_DIR}/${DATA_NAME}/{subject}/*/*/{session}/*.dcm \
+    -s ${subject_id} \
+    -ss ${SES}\
+    -f ${SINGULARITY_MNT_DIR}/ET_biomarker/scripts/heudiconv/${HEURISTIC_FILE} \
+    --grouping studyUID \
+    -c dcm2niix -b --overwrite --minmeta \
+    -o ${SINGULARITY_OUT_DIR}
+
 elif [ ${DATA_NAME} = 'ADNI' ]; then
     DATA_DIR_LEN_OFFSET=32
+    subject_id=${DIR_STR[@]:DATA_DIR_LEN_OFFSET}
+    SES=$(cat ${DATA_NAME}_sessions/${subject_id})
+    echo ${DATA_NAME} * ${subject_id} * ${SES}
+    singularity run --cleanenv -B ${WD_DIR}:${SINGULARITY_MNT_DIR} ${CON_IMG} \
+    -d ${SINGULARITY_MNT_DIR}/${DATA_NAME}/{subject}/*/*/{session}/*.dcm \
+    -s ${subject_id} \
+    -ss ${SES}\
+    -f ${SINGULARITY_MNT_DIR}/ET_biomarker/scripts/heudiconv/${HEURISTIC_FILE} \
+    --grouping studyUID \
+    -c dcm2niix -b --overwrite --minmeta \
+    -o ${SINGULARITY_OUT_DIR}
 else
     DATA_DIR_LEN_OFFSET=29
+    subject_id=${DIR_STR[@]:DATA_DIR_LEN_OFFSET}
+    echo ${DATA_NAME} * ${subject_id} * ${SES}
 fi
-subject_id=${DIR_STR[@]:DATA_DIR_LEN_OFFSET}
-echo ${DATA_NAME} ${subject_id}
-
-singularity run --cleanenv -B ${WD_DIR}:${SINGULARITY_MNT_DIR} ${CON_IMG} \
--d ${SINGULARITY_MNT_DIR}/${DATA_NAME}/{subject}/*/*/*/*.dcm \
--s ${subject_id} \
--f ${SINGULARITY_MNT_DIR}/ET_biomarker/scripts/heudiconv/${HEURISTIC_FILE} \
---grouping studyUID \
--c dcm2niix -b --overwrite --minmeta \
--o ${SINGULARITY_OUT_DIR}
 
 echo "Step5: Heudiconv Run2 finishted, conversion complete!"

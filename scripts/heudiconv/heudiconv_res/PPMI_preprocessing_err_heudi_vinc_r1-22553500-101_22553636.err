@@ -1,0 +1,32 @@
+WARNING: Could not check for version updates: Could not find a suitable TLS CA certificate bundle, invalid path: /etc/pki/tls/certs/ca-bundle.crt
+INFO: Running heudiconv version 0.8.0 latest Unknown
+INFO: Need to process 1 study sessions
+INFO: PROCESSING STARTS: {'subject': '3544', 'outdir': '/scratch/PPMI_BIDS/', 'session': None}
+INFO: Processing 1 dicoms
+INFO: Analyzing 1 dicoms
+Traceback (most recent call last):
+  File "/opt/miniconda-latest/bin/heudiconv", line 11, in <module>
+    load_entry_point('heudiconv', 'console_scripts', 'heudiconv')()
+  File "/src/heudiconv/heudiconv/cli/run.py", line 134, in main
+    process_args(args)
+  File "/src/heudiconv/heudiconv/cli/run.py", line 352, in process_args
+    grouping=args.grouping,)
+  File "/src/heudiconv/heudiconv/convert.py", line 171, in prep_conversion
+    custom_grouping=getattr(heuristic, 'grouping', None))
+  File "/src/heudiconv/heudiconv/dicoms.py", line 201, in group_dicoms_into_seqinfos
+    mwinfo = validate_dicom(filename, dcmfilter)
+  File "/src/heudiconv/heudiconv/dicoms.py", line 105, in validate_dicom
+    del mw.series_signature[sig]
+  File "/opt/miniconda-latest/lib/python3.6/site-packages/nibabel/onetime.py", line 140, in __get__
+    val = self.getter(obj)
+  File "/opt/miniconda-latest/lib/python3.6/site-packages/nibabel/nicom/dicomwrappers.py", line 642, in series_signature
+    signature['image_shape'] = (self.image_shape, eq)
+  File "/opt/miniconda-latest/lib/python3.6/site-packages/nibabel/onetime.py", line 140, in __get__
+    val = self.getter(obj)
+  File "/opt/miniconda-latest/lib/python3.6/site-packages/nibabel/nicom/dicomwrappers.py", line 546, in image_shape
+    for frame in self.frames)
+  File "/opt/miniconda-latest/lib/python3.6/site-packages/nibabel/nicom/dicomwrappers.py", line 546, in <genexpr>
+    for frame in self.frames)
+  File "/opt/miniconda-latest/lib/python3.6/site-packages/pydicom/dataset.py", line 783, in __getattr__
+    return object.__getattribute__(self, name)
+AttributeError: 'Dataset' object has no attribute 'StackID'
