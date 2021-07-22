@@ -71,4 +71,4 @@ else
 fi
 
 echo "Step2: starting fmriprep!"
-sbatch ${CODE_SLURM} ${DATA_NAME} ${CON_IMG} >> ${LOG_DIR}
+sbatch --array=1-$(( $( wc -l ${BIDS_DIR}/participants.tsv | cut -f1 -d' ' ) - 1 )) ${CODE_SLURM} ${DATA_NAME} ${CON_IMG} >> ${LOG_DIR}

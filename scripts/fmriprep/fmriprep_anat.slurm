@@ -5,7 +5,6 @@
 #SBATCH --account=rpp-aevans-ab
 #SBATCH --cpus-per-task=8
 #SBATCH --mem-per-cpu=8G
-#SBATCH --array=1-117
 # Outputs ----------------------------------
 #SBATCH -o %x-%A-%a_%j.out
 #SBATCH -e %x-%A-%a_%j.err
@@ -21,6 +20,7 @@ CON_IMG=(${@:2:1})
 # MNI-ET N = 42
 # MNI-PD N = 56
 # MNI-NC N = 36
+#SBATCH --array=1-117
 
 WD_DIR=${HOME}/scratch
 DATA_DIR=${WD_DIR}/${DATA_NAME}
