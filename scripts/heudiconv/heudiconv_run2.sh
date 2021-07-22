@@ -11,7 +11,7 @@ DATA_DIR=${WD_DIR}/${DATA_NAME}
 CODE_DIR=${WD_DIR}/ET_biomarker/scripts/heudiconv/heudiconv_run2.slurm
 SUB_LIST=${DATA_DIR}_subjects.list
 CON_IMG=${WD_DIR}/container_images/heudiconv_v0.8.0.simg
-
+N_SUB=$(cat ${SUB_LIST}|wc -l )
 #Select the proper heuristic file
 if [ ${DATA_NAME} = 'PPMI' ]; then
     if [ ${COV_MODE} = 'T1' ]; then
@@ -43,4 +43,4 @@ else
 fi
 
 # submit batch job
-sbatch ${CODE_DIR} ${DATA_NAME} ${HEURISTIC_FILE} ${CON_IMG} ${SUB_LIST}>> ${LOG_FILE}
+sbatch --array=1-${N_SUB} ${CODE_DIR} ${DATA_NAME} ${HEURISTIC_FILE} ${CON_IMG} ${SUB_LIST}>> ${LOG_FILE}
