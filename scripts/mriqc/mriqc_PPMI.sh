@@ -8,7 +8,7 @@ MRIQC_VERSION=0.16.1
 CON_IMG=${HOME}/scratch/container_images/mriqc_${MRIQC_VERSION}.simg
 BIDS_DIR=${WD_DIR}/${DATA_NAME}_BIDS
 OUT_DIR=${WD_DIR}/${DATA_NAME}_mriqc-${MRIQC_VERSION}
-WORK_DIR=${WD_DIR}/${DATA_NAME}_work
+WORK_DIR=${WD_DIR}/${DATA_NAME}_mriqc_work
 templateflow_DIR=${WD_DIR}/templateflow
 LOG_FILE=${WD_DIR}/${DATA_NAME}_mriqc.log
 
@@ -27,16 +27,14 @@ if [ -d ${WORK_DIR} ];then
 fi
 mkdir -p ${WORK_DIR}
 
+
+N_SUB=$(( $( wc -l ${BIDS_DIR}/participants.tsv | cut -f1 -d' ' ) - 1 ))
+
 # individual level run
 echo "Start ${DATA_NAME} participants QC..."
 unset PYTHONPATH
-singularity run -B $HOME:/home/mriqc --home /home/mriqc --cleanenv \
-        -B ${BIDS_DIR}:/data:ro \
-        -B ${OUT_DIR}:/out \
-        -B ${WORK_DIR}:/mriqc_work \
-        -B ${templateflow_DIR}:/templateflow \
-        ${CON_IMG} /data /out participant \
-        --participant-label sub-3853 \
+
+for sub_id in sub-3853 \
 sub-3805 \
 sub-3106 \
 sub-3171 \
@@ -151,7 +149,16 @@ sub-3807 \
 sub-4032 \
 sub-3104 \
 sub-3270 \
-sub-3277 -w /mriqc_work --run-id 1 --ica --no-sub --verbose-repo --profile -vvv >> ${LOG_FILE}
+sub-3277
+do
+singularity run -B $HOME:/home/mriqc --home /home/mriqc --cleanenv \
+        -B ${BIDS_DIR}:/data:ro \
+        -B ${OUT_DIR}:/out \
+        -B ${WORK_DIR}:/mriqc_work \
+        -B ${templateflow_DIR}:/templateflow \
+        ${CON_IMG} /data /out participant \
+        --participant-label $sub_id -w /mriqc_work --run-id 1 --ica --no-sub --verbose-repo --profile -vvv >> ${LOG_FILE}
+done
 # group level run
 echo "Start group QC..."
 singularity run -B $HOME:/home/mriqc --home /home/mriqc --cleanenv \
@@ -160,3 +167,6 @@ singularity run -B $HOME:/home/mriqc --home /home/mriqc --cleanenv \
         -B ${WORK_DIR}:/mriqc_work \
         -B ${templateflow_DIR}:/templateflow \
         ${CON_IMG} /data /out group -w /mriqc_work --verbose-reports >> ${LOG_FILE}
+
+echo Finished QC for ${DATA_NAME}, zipping!
+zip -r ${DATA_NAME}_mriqc-${MRIQC_VERSION}.zip ${DATA_NAME}_mriqc-${MRIQC_VERSION}
