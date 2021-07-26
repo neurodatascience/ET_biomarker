@@ -19,7 +19,7 @@ chmod +x ${CODE_COLLECT}
 
 echo "Step1: subjects folder created!"
 echo "Step2: starting fmriprep-SP!"
-echo "Submitting sub-3274, sub-3523, sub-3765, sub-3900 ses-2!"
+#echo "Submitting sub-3274, sub-3523, sub-3765, sub-3900!"
 
 # PPMI
 # err 22688556
