@@ -34,15 +34,15 @@ echo "Submitting sub-3274, sub-3523, sub-3765, sub-3900 ses-2!"
 
 # ADNI
 # err 22953764_95
-SUB_ID=021S0984
-sbatch ${CODE_SLURM} ${DATA_NAME} ${CON_IMG} ${SUB_ID} >> ${LOG_DIR}
+#SUB_ID=021S0984
+#sbatch ${CODE_SLURM} ${DATA_NAME} ${CON_IMG} ${SUB_ID} >> ${LOG_DIR}
 # err 22953764_120
 SUB_ID=037S4028
 sbatch ${CODE_SLURM} ${DATA_NAME} ${CON_IMG} ${SUB_ID} >> ${LOG_DIR}
 # err 22953764_121
-SUB_ID=098S4018
-sbatch ${CODE_SLURM} ${DATA_NAME} ${CON_IMG} ${SUB_ID} >> ${LOG_DIR}
+#SUB_ID=098S4018
+#sbatch ${CODE_SLURM} ${DATA_NAME} ${CON_IMG} ${SUB_ID} >> ${LOG_DIR}
 # err 22953764_126
-SUB_ID=128S4607
-sbatch ${CODE_SLURM} ${DATA_NAME} ${CON_IMG} ${SUB_ID} >> ${LOG_DIR}
+#SUB_ID=128S4607
+#sbatch ${CODE_SLURM} ${DATA_NAME} ${CON_IMG} ${SUB_ID} >> ${LOG_DIR}
 echo "Submission finished!"
