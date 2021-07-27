@@ -127,3 +127,4 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+scripts/cerebellar_SUIT/cerebellum_seg_suit_ppmi.asv

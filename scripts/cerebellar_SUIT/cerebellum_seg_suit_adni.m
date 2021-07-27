@@ -3,15 +3,12 @@ clc; clear; close all force;
 
 base_path = fullfile('C:\Users\Vincent\Desktop\work_dir');
 out_path = fullfile(base_path, 'output'); addpath(out_path);
-codes_dir =  fullfile(codes_dir, 'ET_biomarker', 'tab_data');
-sub_list_file = fullfile(codes_dir, 'PPMI_subjects.list'); %  read in: subjects_suit.list
-suit_tab_out_file = fullfile(codes_dir, 'res_PPMI_SUIT34.csv'); %  Output: res_MNI_MDTB10.csv
-suit_tab_out_file = fullfile(codes_dir, 'res_PPMI_SUIT34.csv'); %  Output: subjects_suit.list
+codes_dir =  fullfile(base_path, 'ET_biomarker', 'tab_data');
+sub_list_file = fullfile(codes_dir, 'ADNI_subjects.list'); %  read in: subjects_suit.list
+MDTB_tab_out_file = fullfile(codes_dir, 'res_PPMI_MDTB10.csv'); %  Output: res_PPMI_MDTB10.csv
+SUIT_tab_out_file = fullfile(codes_dir, 'res_PPMI_SUIT34.csv'); %  Output: subjects_suit.list
 
-%et_data_path = fullfile(base_path,'ET_fmriprep_anat_20.2.0','fmriprep'); addpath(et_data_path); 
-%pd_data_path = fullfile(base_path,'PD_fmriprep_anat_20.2.0','fmriprep'); addpath(pd_data_path); 
-%nc_data_path = fullfile(base_path,'NC_fmriprep_anat_20.2.0','fmriprep'); addpath(nc_data_path); 
-PPMI_data_path = fullfile(base_path,'PPMI_fmriprep_20.2.0_T1w'); addpath(PPMI_data_path); 
+PPMI_data_path = fullfile(base_path,'ADNI_fmriprep_anat_20.2.0_T1w'); addpath(PPMI_data_path); 
 output_path  = fullfile(out_path, 'PPMI_SUIT_res'); addpath(output_path);
 
 %pre-installed software
@@ -21,7 +18,8 @@ atlas_path = fullfile(out_path, 'm_tools', 'atlasPackage', 'atlasesMNI'); addpat
 atlas_MDTB10=fullfile(spm_path, 'toolbox/suit/atlasesSUIT/MDTB_10Regions.nii');
 atlas_SUIT=fullfile(spm_path, 'toolbox/suit/atlasesSUIT/Lobules-SUIT.nii');
 
-atlas='SUIT'; % atlas='SUIT';
+%atlas='SUIT'; % atlas='SUIT';
+atlas='MDTB';
 switch atlas
     case 'MDTB', curr_atlas=atlas_MDTB10; curr_atlas_str='iw_MDTB_10Regions_u_a_';
     otherwise, curr_atlas = atlas_SUIT; curr_atlas_str='iw_Lobules-SUIT_u_a_';
@@ -83,7 +81,7 @@ spm fmri
 % index=100, 'sub-3816' reporting problem, skipped.
 % index=101, 'sub-3817' reporting problem, skipped.
 % index=110, 'sub-4004' reporting problem, skipped.
-ppmi_norm_err_sub_index = [10,26,27,28,29,31,46,62,63,64,65,66,68,74,75,98,101,110];
+ppmi_norm_err_sub_index = [10,26,27,28,29,31,46,62,63,64,65,66,68,74,75,98,100,101,110];
 norm_start_point=1;
 for i_ = 1:data.n_sub
     %tic
@@ -133,15 +131,15 @@ end
 % suit_reslice_dartel_inv(job_s); % registration from atlas to indivparticipant_idual
     
 %fix single subject normalization: sub-002
-rerun_norm_err_sub_index =[38, 100];
-for i_ = 1:length(rerun_norm_err_sub_index)
-    i_data = rerun_norm_err_sub_index(i_);
-    disp(['Reruning: ', num2str(i_data), data.participant_id(i_data,:)])
-    job_norm1_err.subjND(i_).gray={fullfile(output_path,data.gm{i_data})}; 
-    job_norm1_err.subjND(i_).white={ fullfile(output_path,data.wm{i_data})};
-    job_norm1_err.subjND(i_).isolation={fullfile(output_path,data.mask{i_data})}; 
-end
-suit_normalize_dartel(job_norm1_err)
+% rerun_norm_err_sub_index =[38, 100];
+% for i_ = 1:length(rerun_norm_err_sub_index)
+%     i_data = rerun_norm_err_sub_index(i_);
+%     disp(['Reruning: ', num2str(i_data), data.participant_id(i_data,:)])
+%     job_norm1_err.subjND(i_).gray={fullfile(output_path,data.gm{i_data})}; 
+%     job_norm1_err.subjND(i_).white={ fullfile(output_path,data.wm{i_data})};
+%     job_norm1_err.subjND(i_).isolation={fullfile(output_path,data.mask{i_data})}; 
+% end
+% suit_normalize_dartel(job_norm1_err)
 % Reruning: sub-3350: Warning: Matrix is singular, close to singular or badly scaled. Results may be inaccurate. RCOND = NaN. 
 % Reruning: sub-3816: Error using file2mat File is smaller than the dimensions say it should be.
 %% register atlas to indivparticipant_idual can calculate vol size
@@ -173,8 +171,8 @@ end
 % file or directory. % registering to atlas 100 in 116 :sub-3816
 
 switch atlas
-    case 'MDTB', csvwrite(fullfile(output_path, 'res', 'res_MDTB10.csv'),roi_tab);
-    otherwise,   csvwrite(fullfile(output_path, 'res', 'res_SUIT34.csv'),roi_tab);
+    case 'MDTB', csvwrite(MDTB_tab_out_file, roi_tab);
+    otherwise,   csvwrite(SUIT_tab_out_file, roi_tab);
 end
 
 %% test code

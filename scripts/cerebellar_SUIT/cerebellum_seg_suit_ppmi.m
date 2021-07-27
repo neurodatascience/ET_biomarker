@@ -11,7 +11,7 @@ SUIT_tab_out_file = fullfile(codes_dir, 'res_PPMI_SUIT34.csv'); %  Output: subje
 %et_data_path = fullfile(base_path,'ET_fmriprep_anat_20.2.0','fmriprep'); addpath(et_data_path); 
 %pd_data_path = fullfile(base_path,'PD_fmriprep_anat_20.2.0','fmriprep'); addpath(pd_data_path); 
 %nc_data_path = fullfile(base_path,'NC_fmriprep_anat_20.2.0','fmriprep'); addpath(nc_data_path); 
-PPMI_data_path = fullfile(base_path,'PPMI_fmriprep_20.2.0_T1w'); addpath(PPMI_data_path); 
+PPMI_data_path = fullfile(base_path,'PPMI_fmriprep_anat_20.2.0_T1w'); addpath(PPMI_data_path); 
 output_path  = fullfile(out_path, 'PPMI_SUIT_res'); addpath(output_path);
 
 %pre-installed software
