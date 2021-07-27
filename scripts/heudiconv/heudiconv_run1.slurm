@@ -55,6 +55,15 @@ echo ${DATA_NAME} ${subject_id}
 #N_SES=$(cat ${subject_id}.ses|wc -l )
 #for i_ses in $(seq 1 ${N_SES});do
 #ses_id=$(sed -n "${i_ses}p" ${subject_id}.ses )
+if [ ${DATA_NAME} = 'ETSP' ]; then
+singularity run -B ${WD_DIR}:${SINGULARITY_MNT_DIR} \
+${CON_IMG_DIR}/heudiconv_v0.8.0.simg \
+-d ${SINGULARITY_MNT_DIR}/${DATA_NAME}/{subject}/*/*/DICOM/*/*/*/*.dcm \
+-s ${subject_id} -c none \
+-f convertall \
+-o ${SINGULARITY_OUT_DIR} \
+--overwrite
+else
 singularity run -B ${WD_DIR}:${SINGULARITY_MNT_DIR} \
 ${CON_IMG_DIR}/heudiconv_v0.8.0.simg \
 -d ${SINGULARITY_MNT_DIR}/${DATA_NAME}/{subject}/*/*/*/*.dcm \
@@ -64,5 +73,5 @@ ${CON_IMG_DIR}/heudiconv_v0.8.0.simg \
 --overwrite
 #-ss ${ses_id} \
 #--grouping studyUID \
-
+fi
 echo "Step3: Heudiconv Run1 finishted!"
