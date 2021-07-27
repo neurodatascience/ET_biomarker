@@ -7,6 +7,7 @@ WD_DIR=${HOME}/scratch
 MRIQC_VERSION=0.16.1
 CON_IMG=${HOME}/scratch/container_images/mriqc_${MRIQC_VERSION}.simg
 BIDS_DIR=${WD_DIR}/${DATA_NAME}_BIDS
+DATA_DIR=${WD_DIR}_fmriprep_anat_20.2.0/fmriprep
 OUT_DIR=${WD_DIR}/${DATA_NAME}_mriqc-${MRIQC_VERSION}
 WORK_DIR=${WD_DIR}/${DATA_NAME}_mriqc_work
 templateflow_DIR=${WD_DIR}/templateflow
@@ -152,7 +153,7 @@ sub-3270 \
 sub-3277
 do
 singularity run -B $HOME:/home/mriqc --home /home/mriqc --cleanenv \
-        -B ${BIDS_DIR}:/data:ro \
+        -B ${DATA_DIR}:/data:ro \
         -B ${OUT_DIR}:/out \
         -B ${WORK_DIR}:/mriqc_work \
         -B ${templateflow_DIR}:/templateflow \
@@ -162,7 +163,7 @@ done
 # group level run
 echo "Start group QC..."
 singularity run -B $HOME:/home/mriqc --home /home/mriqc --cleanenv \
-        -B ${BIDS_DIR}:/data:ro \
+        -B ${DATA_DIR}:/data:ro \
         -B ${OUT_DIR}:/out \
         -B ${WORK_DIR}:/mriqc_work \
         -B ${templateflow_DIR}:/templateflow \
