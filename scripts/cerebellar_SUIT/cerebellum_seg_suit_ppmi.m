@@ -1,7 +1,7 @@
 restoredefaultpath
 clc; clear; close all force;
 
-base_path = fullfile('C:\Users\Vincent\Desktop\work_dir');
+base_path = fullfile('C:\Users\Vincent\Desktop\scratch');
 out_path = fullfile(base_path, 'output'); addpath(out_path);
 codes_dir =  fullfile(base_path, 'ET_biomarker', 'tab_data');
 sub_list_file = fullfile(codes_dir, 'PPMI_subjects.list'); %  read in: subjects_suit.list
