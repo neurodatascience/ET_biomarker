@@ -1,111 +1,224 @@
-participant_id
-sub-002S0413
-sub-003S0907
-sub-003S4081
-sub-003S4119
-sub-003S4840
-sub-003S4900
-sub-005S0553
-sub-006S0731
-sub-006S4357
-sub-007S1222
-sub-007S4387
-sub-007S4620
-sub-007S4637
-sub-009S4337
-sub-009S4388
-sub-011S0021
-sub-013S4616
-sub-014S0548
-sub-014S4577
-sub-016S0359
-sub-016S4638
-sub-018S0055
-sub-021S0337
-sub-021S0984
-sub-021S4254
-sub-021S4276
-sub-021S4421
-sub-021S4558
-sub-022S0096
-sub-022S0130
-sub-023S0061
-sub-023S4020
-sub-024S4084
-sub-024S4158
-sub-027S0120
-sub-029S4279
-sub-029S4290
-sub-029S4585
-sub-031S4218
-sub-031S4474
-sub-032S1169
-sub-032S4304
-sub-032S4348
-sub-032S4429
-sub-032S4921
-sub-033S0741
-sub-033S0920
-sub-033S0923
-sub-033S1016
-sub-033S1098
-sub-033S4176
-sub-035S0555
-sub-035S4464
-sub-036S4389
-sub-037S0467
-sub-037S4028
-sub-037S4071
-sub-037S4410
-sub-041S4014
-sub-041S4041
-sub-041S4083
-sub-041S4427
-sub-041S4509
-sub-053S4578
-sub-067S0059
-sub-067S0257
-sub-068S0127
-sub-068S0473
-sub-068S4340
-sub-070S4856
-sub-073S0311
-sub-073S4382
-sub-073S4552
-sub-073S4739
-sub-094S4234
-sub-094S4460
-sub-094S4503
-sub-094S4560
-sub-098S4003
-sub-098S4018
-sub-098S4506
-sub-099S4076
-sub-099S4086
-sub-123S0298
-sub-123S4362
-sub-126S0605
-sub-127S0259
-sub-127S4604
-sub-127S4645
-sub-127S4843
-sub-128S0229
-sub-128S0230
-sub-128S0272
-sub-128S0522
-sub-128S4586
-sub-128S4599
-sub-128S4607
-sub-129S0778
-sub-130S0969
-sub-131S0123
-sub-131S0441
-sub-136S4269
-sub-136S4433
-sub-136S4727
-sub-137S0301
-sub-137S0972
-sub-153S4151
-sub-941S1203
-sub-941S4100
-sub-941S4255
+Participant_id	age	sex	group
+sub-002S0295	89	M	control
+sub-002S0413	81	F	control
+sub-002S0685	94	F	control
+sub-002S1280	76	F	control
+sub-002S4213	78	F	control
+sub-002S4225	70	M	control
+sub-002S4264	74	F	control
+sub-003S0907	95	F	control
+sub-003S0981	91	F	control
+sub-003S4081	74	F	control
+sub-003S4119	80	M	control
+sub-003S4288	75	F	control
+sub-003S4350	76	M	control
+sub-003S4441	69	F	control
+sub-003S4555	67	F	control
+sub-003S4839	61	F	control
+sub-003S4840	65	M	control
+sub-003S4872	70	F	control
+sub-003S4900	60	F	control
+sub-005S0553	95	M	control
+sub-005S0610	89	M	control
+sub-006S0498	79	M	control
+sub-006S0731	80	M	control
+sub-006S4357	77	F	control
+sub-006S4449	68	F	control
+sub-006S4485	77	M	control
+sub-007S1206	79	M	control
+sub-007S1222	79	F	control
+sub-007S4387	76	F	control
+sub-007S4488	76	M	control
+sub-007S4516	73	M	control
+sub-007S4620	81	M	control
+sub-007S4637	74	F	control
+sub-009S0751	77	M	control
+sub-009S0842	79	M	control
+sub-009S4337	72	M	control
+sub-009S4388	69	M	control
+sub-009S4612	68	F	control
+sub-011S0021	80	F	control
+sub-013S4579	87	M	control
+sub-013S4580	71	F	control
+sub-013S4616	86	M	control
+sub-013S4731	83	F	control
+sub-014S0548	31	F	control
+sub-014S4576	62	F	control
+sub-014S4577	86	M	control
+sub-016S0359	91	F	control
+sub-016S4097	71	F	control
+sub-016S4121	89	M	control
+sub-016S4638	74	M	control
+sub-016S4688	82	F	control
+sub-016S4951	72	F	control
+sub-016S4952	69	F	control
+sub-018S0055	85	M	control
+sub-018S4257	80	M	control
+sub-018S4349	74	F	control
+sub-018S4400	75	M	control
+sub-019S4367	69	F	control
+sub-020S1288	65	M	control
+sub-021S0337	82	M	control
+sub-021S0984	81	M	control
+sub-021S4254	90	F	control
+sub-021S4276	78	F	control
+sub-021S4335	76	F	control
+sub-021S4421	77	F	control
+sub-021S4558	71	F	control
+sub-022S0096	85	M	control
+sub-022S0130	79	M	control
+sub-022S4320	72	F	control
+sub-023S0031	85	F	control
+sub-023S0058	75	M	control
+sub-023S0061	83	F	control
+sub-023S0926	76	F	control
+sub-023S1190	80	F	control
+sub-023S4020	66	M	control
+sub-023S4164	73	M	control
+sub-024S0985	88	M	control
+sub-024S4084	72	F	control
+sub-024S4158	84	M	control
+sub-027S0074	88	M	control
+sub-027S0120	81	M	control
+sub-029S0824	85	F	control
+sub-029S4279	86	M	control
+sub-029S4290	75	M	control
+sub-029S4384	64	M	control
+sub-029S4385	70	F	control
+sub-029S4585	69	M	control
+sub-029S4652	82	M	control
+sub-031S4021	70	M	control
+sub-031S4032	72	F	control
+sub-031S4218	83	M	control
+sub-031S4474	86	M	control
+sub-031S4496	78	F	control
+sub-032S0479	78	F	control
+sub-032S0677	81	M	control
+sub-032S1169	77	F	control
+sub-032S4304	75	M	control
+sub-032S4348	66	F	control
+sub-032S4429	79	M	control
+sub-032S4921	67	M	control
+sub-033S0734	79	M	control
+sub-033S0741	89	F	control
+sub-033S0920	88	F	control
+sub-033S0923	90	M	control
+sub-033S1016	88	F	control
+sub-033S1098	79	F	control
+sub-033S4176	89	M	control
+sub-033S4177	89	M	control
+sub-033S4179	84	M	control
+sub-033S4508	78	F	control
+sub-035S0156	85	M	control
+sub-035S0555	87	M	control
+sub-035S4464	75	M	control
+sub-036S1023	83	F	control
+sub-036S4389	82	M	control
+sub-036S4878	73	F	control
+sub-037S0454	89	F	control
+sub-037S0467	88	F	control
+sub-037S4028	67	M	control
+sub-037S4071	74	M	control
+sub-037S4308	76	M	control
+sub-037S4410	71	F	control
+sub-041S4014	81	M	control
+sub-041S4037	80	M	control
+sub-041S4041	79	F	control
+sub-041S4083	85	M	control
+sub-041S4427	71	M	control
+sub-041S4509	69	M	control
+sub-051S1123	12	F	control
+sub-053S4578	73	F	control
+sub-057S0934	79	F	control
+sub-067S0056	78	F	control
+sub-067S0059	78	F	control
+sub-067S0257	86	F	control
+sub-068S0127	77	M	control
+sub-068S0210	83	F	control
+sub-068S0473	82	M	control
+sub-068S4340	70	F	control
+sub-070S4856	68	F	control
+sub-070S5040	76	F	control
+sub-072S0315	80	M	control
+sub-072S4391	76	M	control
+sub-073S0089	72	M	control
+sub-073S0311	85	F	control
+sub-073S4382	77	F	control
+sub-073S4393	77	M	control
+sub-073S4552	67	M	control
+sub-073S4559	71	F	control
+sub-073S4739	67	M	control
+sub-073S4762	75	M	control
+sub-073S4795	63	M	control
+sub-082S1256	75	F	control
+sub-082S4090	71	M	control
+sub-094S4234	74	M	control
+sub-094S4459	68	F	control
+sub-094S4460	67	F	control
+sub-094S4503	75	F	control
+sub-094S4560	70	F	control
+sub-094S4649	69	M	control
+sub-098S0896	86	M	control
+sub-098S4002	74	M	control
+sub-098S4003	77	F	control
+sub-098S4018	80	M	control
+sub-098S4050	77	M	control
+sub-098S4275	77	M	control
+sub-098S4506	73	M	control
+sub-099S0352	82	F	control
+sub-099S4076	76	F	control
+sub-099S4086	85	M	control
+sub-099S4104	74	M	control
+sub-100S0069	83	M	control
+sub-100S4511	70	M	control
+sub-100S5246	66	F	control
+sub-114S0173	83	M	control
+sub-114S0416	85	F	control
+sub-123S0113	86	M	control
+sub-123S0298	87	M	control
+sub-123S4362	67	F	control
+sub-126S0605	81	F	control
+sub-126S0680	84	M	control
+sub-127S0259	76	M	control
+sub-127S0260	87	F	control
+sub-127S4148	76	M	control
+sub-127S4198	82	F	control
+sub-127S4604	67	M	control
+sub-127S4645	80	F	control
+sub-127S4843	75	F	control
+sub-128S0229	80	F	control
+sub-128S0230	86	M	control
+sub-128S0272	76	F	control
+sub-128S0522	77	M	control
+sub-128S0545	77	M	control
+sub-128S0863	84	M	control
+sub-128S1242	77	F	control
+sub-128S4586	80	M	control
+sub-128S4599	61	M	control
+sub-128S4607	58	F	control
+sub-128S4832	73	M	control
+sub-129S0778	80	M	control
+sub-129S4396	80	F	control
+sub-130S0969	79	M	control
+sub-131S0123	79	M	control
+sub-131S0441	82	F	control
+sub-136S0186	89	F	control
+sub-136S4269	68	F	control
+sub-136S4433	78	F	control
+sub-136S4726	72	F	control
+sub-136S4727	73	F	control
+sub-137S0301	82	F	control
+sub-137S0972	86	M	control
+sub-137S4482	82	F	control
+sub-141S0717	82	M	control
+sub-141S0767	80	F	control
+sub-153S4151	55	M	control
+sub-941S1195	86	M	control
+sub-941S1202	81	M	control
+sub-941S1203	87	M	control
+sub-941S4066	78	F	control
+sub-941S4100	82	F	control
+sub-941S4255	72	M	control
+sub-941S4292	75	M	control
+sub-941S4365	84	M	control
+sub-941S4376	80	F	control

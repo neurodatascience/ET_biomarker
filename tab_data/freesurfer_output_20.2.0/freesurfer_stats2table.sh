@@ -2,7 +2,7 @@
 DATA_NAME=(${@:1:1})
 export SUBJECTS_DIR=${HOME}/scratch/${DATA_NAME}_fmriprep_anat_20.2.0/freesurfer-6.0.1
 P_CWD=$PWD
-OUT_DIR=${P_CWD}/${DATA_NAME}_freesurfer_res
+OUT_DIR=${P_CWD}/${DATA_NAME}
 
 if [ -d ${OUT_DIR} ];then
   rm -rf ${OUT_DIR}
