@@ -21,7 +21,7 @@ def infotodict(seqinfo):
     last_run = len(seqinfo)
     for idx, s in enumerate(seqinfo):
         print(s)
-        if (('MPRAGE' in s.series_description) or ('SPGR' in s.series_description)) and (s.dim1>190 and s.dim1<300) and (s.dim2>190 and s.dim2<300) and (s.dim3>100 and s.dim3<500):
+        if ('RAGE' in s.series_description) or ('SPGR' in s.series_description):
             print("****** T1 ******")
             info[t1w].append(s.series_id);
     return info
