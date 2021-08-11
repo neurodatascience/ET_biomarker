@@ -1,6 +1,8 @@
 #!/bin/bash
 DATA_NAME=(${@:1:1})
 export SUBJECTS_DIR=${HOME}/scratch/${DATA_NAME}_fmriprep_anat_20.2.0/freesurfer-6.0.1
+#export SUBJECTS_DIR=/media/vincent/vincent_dat/0_PDET-Project/data/ADNI2_NC/${DATA_NAME}_fmriprep_anat_20.2.0/freesurfer-6.0.1
+# for the large ADNI2 NC cohort on the portable hard drive.
 P_CWD=$PWD
 OUT_DIR=${P_CWD}/${DATA_NAME}
 

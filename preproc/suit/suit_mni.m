@@ -1,13 +1,15 @@
 restoredefaultpath
 clc; clear; close all force;
 
-base_path = fullfile('C:\Users\Vincent\Desktop\work_dir');
+data_name='MN';
+base_path = fullfile('C:\Users\Vincent\Desktop\scratch');
 out_path = fullfile(base_path, 'output'); addpath(out_path);
+sub_list_file = fullfile(codes_dir, [data_name,'_subjects.list']); %  read in: subjects_suit.list
 sub_list_file = fullfile(out_path, 'subjects.list'); %  subjects_suit.list
 et_data_path = fullfile(base_path,'ET_fmriprep_anat_20.2.0','fmriprep'); addpath(et_data_path); 
 pd_data_path = fullfile(base_path,'PD_fmriprep_anat_20.2.0','fmriprep'); addpath(pd_data_path); 
 nc_data_path = fullfile(base_path,'NC_fmriprep_anat_20.2.0','fmriprep'); addpath(nc_data_path); 
-output_path  = fullfile(out_path, 'res_SUIT'); addpath(output_path);
+output_path  = fullfile(out_path, 'MNI_SUIT_res'); addpath(output_path);
 
 spm_path = fullfile(out_path, 'm_tools', 'spm12'); addpath(spm_path);
 atlas_path = fullfile(out_path, 'm_tools', 'atlasPackage', 'atlasesMNI'); addpath(atlas_path);
