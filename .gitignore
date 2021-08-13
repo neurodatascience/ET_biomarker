@@ -129,3 +129,4 @@ dmypy.json
 .pyre/
 scripts/cerebellar_SUIT/cerebellum_seg_suit_ppmi.asv
 scripts/cerebellar_SUIT/cerebellum_seg_suit_adni.asv
+*.asv

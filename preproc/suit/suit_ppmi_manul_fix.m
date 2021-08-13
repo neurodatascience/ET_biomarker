@@ -68,7 +68,6 @@ spm fmri
 % for i_ = 1:data.n_sub
 %     %tic
 %     %disp(['isolateing + normalization ', num2str(i_),' in ', num2str(data.n_sub), ' :', data.participant_id(i_,:)]);
-%     
 %     % segmentation: cerebelum isolation
 %     %suit_isolate_seg({image_file});
 %     data.norm_pass{i_}=1;
@@ -200,3 +199,11 @@ end
 % summarize volumes (no participant_idea what we need this function for)
 %suit_ROI_summarize(data.nii_suit,'atlas', atlas_MDTB10);
 % suit_ROI_summarize(data.nii_suit,'atlas', atlas_SUIT);
+
+%% 
+aff_mat = load(fullfile(output_path,'Affine_sub-3624_run-1_desc-preproc_T1w_seg1.mat'));
+img_mat = spm_vol(fullfile(output_path,'sub-3624_run-1_desc-preproc_T1w_seg1.nii'));
+M=spm_imatrix(aff_mat.Affine);
+reg_imgg_mat=spm_get_space(img_mat, M*img_mat.mat);
+
+
