@@ -23,7 +23,25 @@ dir_img = '/pth/to/niis';     % data directory (N0 niftis in this directory will
 dir_res = '/pth/to/results';  % results directory
 fwhm    = 8;                 % amount of smoothing
 
-% start software
+%% start software
+spm('defaults','fmri');
+spm_jobman('initcfg');
+
+matlabbatch{1}.spm... = ...;
+
+spm_jobman('run',matlabbatch);
+
+-------------------------
+
+
+sex1=ones(height(sex),1);
+for i_=1:height(sex)
+    if sex{i_,1}=='F'
+        sex1(i_)=0;
+    end
+end
+
+
 spm fmri
 % Age and sex are covariates, as we here do not have these values, we just 
 % pick some random numbers. When specifying them, ensure that they are in
