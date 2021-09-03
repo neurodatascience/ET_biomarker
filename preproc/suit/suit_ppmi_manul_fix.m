@@ -122,33 +122,34 @@ norm_err_sub_index_r1 = [10,26,27,28,29,31,46,63,64,65,66,67,69,75,76,99,101,102
 %  end
 % norm_err_sub_ind_r2
 % %% assign flag values for norm_err_sub_ind_r2 rerun subjects
-% for i_ = 1:data.n_sub; data.norm_pass{i_}=1; end;
-% for i = 1:length(norm_err_sub_ind_r2); data.norm_pass{norm_err_sub_ind_r2(i)}= 0; end;
+norm_err_sub_ind_r2=[1]
+for i_ = 1:data.n_sub; data.norm_pass{i_}=1; end;
+for i = 1:length(norm_err_sub_ind_r2); data.norm_pass{norm_err_sub_ind_r2(i)}= 0; end;
 % data.norm_pass{62}=0;
-% %% fix list of error subjects normalization
-% k=1
-% for i_ = 1:data.n_sub
-%     if data.norm_pass{i_}==0
-%         data.participant_id(i_,:)
-%         %del_list
-%         tic
-%         delete(fullfile(output_path, data.gm{i_}), fullfile(output_path, data.wm{i_}))
-%         delete(fullfile(output_path, data.mask{i_}), fullfile(output_path, data.aff{i_}))
-%         delete(fullfile(output_path, data.deform{i_}), fullfile(output_path, ['a_', data.gm{i_}]),fullfile(output_path, ['a_', data.wm{i_}]))
-%         delete(fullfile(output_path, ['c_', data.t1_name{i_},'.nii']),fullfile(output_path, ['m', data.gm{i_}]),fullfile(output_path, ['m', data.wm{i_}]))
-%         delete(fullfile(output_path, ['iw_MDTB_10Regions_u_a_', data.gm{i_}]), fullfile(output_path, ['iw_Lobules-SUIT_u_a_', data.gm{i_}]))
-%         suit_isolate_seg({data.nii_out{i_}}); % segmentation: cerebelum isolation
-%         disp(['normalization ', num2str(i_),' in ', num2str(data.n_sub), ' :', data.participant_id(i_,:)]);
-%         %normalize to SUIT space, generate affine and deformation field.
-%         job_err.subjND(k).gray={fullfile(output_path,data.gm{i_})}; 
-%         job_err.subjND(k).white={ fullfile(output_path,data.wm{i_})};
-%         job_err.subjND(k).isolation={fullfile(output_path,data.mask{i_})}; 
-%         k=k+1;
-%         toc
-%     end
-% end
-% %map subject space -> SUIT space
-% suit_normalize_dartel(job_err)
+%% fix list of error subjects normalization
+k=1
+for i_ = 1:data.n_sub
+    if data.norm_pass{i_}==0
+        data.participant_id(i_,:)
+        %del_list
+        tic
+        delete(fullfile(output_path, data.gm{i_}), fullfile(output_path, data.wm{i_}))
+        delete(fullfile(output_path, data.mask{i_}), fullfile(output_path, data.aff{i_}))
+        delete(fullfile(output_path, data.deform{i_}), fullfile(output_path, ['a_', data.gm{i_}]),fullfile(output_path, ['a_', data.wm{i_}]))
+        delete(fullfile(output_path, ['c_', data.t1_name{i_},'.nii']),fullfile(output_path, ['m', data.gm{i_}]),fullfile(output_path, ['m', data.wm{i_}]))
+        delete(fullfile(output_path, ['iw_MDTB_10Regions_u_a_', data.gm{i_}]), fullfile(output_path, ['iw_Lobules-SUIT_u_a_', data.gm{i_}]))
+        suit_isolate_seg({data.nii_out{i_}}); % segmentation: cerebelum isolation
+        disp(['normalization ', num2str(i_),' in ', num2str(data.n_sub), ' :', data.participant_id(i_,:)]);
+        %normalize to SUIT space, generate affine and deformation field.
+        job_err.subjND(k).gray={fullfile(output_path,data.gm{i_})}; 
+        job_err.subjND(k).white={ fullfile(output_path,data.wm{i_})};
+        job_err.subjND(k).isolation={fullfile(output_path,data.mask{i_})}; 
+        k=k+1;
+        toc
+    end
+end
+%map subject space -> SUIT space
+suit_normalize_dartel(job_err)
 
 %% fix single subject normalization 
 % i_err = 27;

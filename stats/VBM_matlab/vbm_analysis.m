@@ -4,7 +4,7 @@
 restoredefaultpath
 clc; clear; close all force;
 % basic path
-data_name='PPMI';
+data_name='mni_etnc';
 base_path = fullfile('C:\Users\Vincent\Desktop\scratch');
 out_path = fullfile(base_path, 'output'); addpath(out_path);
 codes_dir =  fullfile(base_path, 'ET_biomarker', 'tab_data');
@@ -14,9 +14,9 @@ spm_path = fullfile(out_path, 'm_tools', 'spm12'); addpath(spm_path);
 %% study path
 sub_list_file = fullfile(codes_dir, [data_name,'_subjects.list']); %  read in: subjects_suit.list
 %data input and output
-data_path = fullfile(base_path,[data_name,'_fmriprep_anat_20.2.0_T1w']); addpath(data_path); 
-output_path  = fullfile(out_path, [data_name,'_VBM_res']); addpath(output_path);
-
+%data_path = fullfile(base_path,[data_name,'_fmriprep_anat_20.2.0_T1w']); addpath(data_path); 
+output_path  = fullfile(out_path, [data_name,'_spm_vbm']); addpath(output_path);
+addpath('C:\Users\Vincent\Desktop\scratch\output\m_tools\xjview10\xjview')
 % Parameters
 N0      = Inf;                % Inf uses all images
 dir_img = '/pth/to/niis';     % data directory (N0 niftis in this directory will be selected)
@@ -26,12 +26,15 @@ fwhm    = 8;                 % amount of smoothing
 %% start software
 spm('defaults','fmri');
 spm_jobman('initcfg');
+spm fmri
+
+
 
 matlabbatch{1}.spm... = ...;
 
 spm_jobman('run',matlabbatch);
 
--------------------------
+%-------------------------
 
 
 sex1=ones(height(sex),1);
@@ -41,8 +44,6 @@ for i_=1:height(sex)
     end
 end
 
-
-spm fmri
 % Age and sex are covariates, as we here do not have these values, we just 
 % pick some random numbers. When specifying them, ensure that they are in
 % the same order as the input files read on line 24.
