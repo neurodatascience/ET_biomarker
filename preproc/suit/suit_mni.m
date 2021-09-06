@@ -1,14 +1,13 @@
 restoredefaultpath
 clc; clear; close all force;
 
-data_name='MN';
+data_name='MNI';
 base_path = fullfile('C:\Users\Vincent\Desktop\scratch');
 out_path = fullfile(base_path, 'output'); addpath(out_path);
+codes_dir =  fullfile(base_path, 'ET_biomarker', 'tab_data'); addpath(codes_dir);
 sub_list_file = fullfile(codes_dir, [data_name,'_subjects.list']); %  read in: subjects_suit.list
-sub_list_file = fullfile(out_path, 'subjects.list'); %  subjects_suit.list
-et_data_path = fullfile(base_path,'ET_fmriprep_anat_20.2.0','fmriprep'); addpath(et_data_path); 
-pd_data_path = fullfile(base_path,'PD_fmriprep_anat_20.2.0','fmriprep'); addpath(pd_data_path); 
-nc_data_path = fullfile(base_path,'NC_fmriprep_anat_20.2.0','fmriprep'); addpath(nc_data_path); 
+%sub_list_file = fullfile(out_path, 'subjects.list'); %  subjects_suit.list
+data_path = fullfile(base_path,[data_name, '_fmriprep_anat_20.2.0_T1w']); addpath(data_path); 
 output_path  = fullfile(out_path, 'MNI_SUIT_res'); addpath(output_path);
 
 spm_path = fullfile(out_path, 'm_tools', 'spm12'); addpath(spm_path);
@@ -27,35 +26,23 @@ data=tdfread(sub_list_file,'\t'); data.n_sub=length(data.age); data.lobules={};
 roi_tab = NaN(data.n_sub, num_lobules);
 
 %% sub list, unzip all nii.gz to .nii
-data.t1_in={}; data.nii_out={}; data.t1_name={}; 
+data.t1_in={}; data.nii_out={}; data.t1_name={}; data.roi={}; data.mask={}; data.roi_sum={};
+data.gm={}; data.wm={}; data.aff={}; data.deform={}; data.nii_suit={}; data.norm_pass={}; data.seg_pass={};
 for i_ = 1:data.n_sub
-    %disp([num2str(i_),' ,unziping ' data.id(i_,:)]);
-    if data.diagnosis(i_,:)=='PD'
-        sub_dir = fullfile(pd_data_path, data.id(i_,:), 'ses-1','anat');
-    elseif data.diagnosis(i_,:)=='ET'
-        sub_dir = fullfile(et_data_path, data.id(i_,:), 'ses-1','anat');
-    elseif data.diagnosis(i_,:)=='NC'
-        sub_dir = fullfile(nc_data_path, data.id(i_,:), 'ses-1','anat');
-    else
-        disp('new type: ',  data.diagnosis(i_,:))
-    end
-    if strcmp(data.id(i_,:),'sub-0109') | strcmp(data.id(i_,:),'sub-0129') | ...
-            strcmp(data.id(i_,:),'sub-1000') | strcmp(data.id(i_,:),'sub-0134')| strcmp(data.id(i_,:),'sub-0073') | ...
-            strcmp(data.id(i_,:),'sub-0085') 
-        t1_name = [data.id(i_,:) '_ses-1_desc-preproc_T1w.nii.gz'];
-    else
-        t1_name = [data.id(i_,:) '_ses-1_run-1_desc-preproc_T1w.nii.gz'];
-    end
+    t1_name = [data.participant_id(i_,:) '_run-1_desc-preproc_T1w.nii.gz'];
     data.t1_name{end+1}=t1_name(1:end-7);
-    data.t1_in{end+1}=fullfile(sub_dir, t1_name); data.nii_out{end+1}=fullfile(output_path, t1_name(1:end-3));
-    %gunzip(t1_name, output_path); % unzip nii.gz -> .nii
+    data.t1_in{end+1}=fullfile(data_path, t1_name); data.nii_out{end+1}=fullfile(output_path, t1_name(1:end-3));
+    image_str = data.t1_name{i_}; image_file = data.nii_out{i_}; 
+    data.gm{end+1}=[image_str,'_seg1.nii'];  data.wm{end+1}=[image_str,'_seg2.nii']; data.mask{end+1}=['c_', image_str,'_pcereb.nii'];
+    data.aff{end+1} = ['Affine_', image_str,'_seg1.mat']; data.deform{end+1} = ['u_a_', image_str,'_seg1.nii'];
+    data.roi_sum{end+1}=fullfile( output_path, [image_str, '_roi.txt']);
+    % unzip nii.gz -> .nii
+    % gunzip(t1_name, output_path); 
 end
 
 %% initialize spm
 spm fmri
-data.roi={}; data.mask={}; data.roi_sum={};
-data.gm={}; data.wm={}; data.aff={}; data.deform={}; 
-data.nii_suit={};
+
 % normalization
 for i_ = 1:data.n_sub
     tic
@@ -151,11 +138,3 @@ switch atlas
     case 'MDTB', csvwrite(fullfile(output_path, 'res', 'res_MDTB10.csv'),roi_tab);
     otherwise,   csvwrite(fullfile(output_path, 'res', 'res_SUIT34.csv'),roi_tab);
 end
-
-%% test code
-%suit_reslice_inv(curr_atlas,fullfile(output_path,data.aff{i_}))
-
-%% old code
-% summarize volumes (no idea what we need this function for)
-% suit_ROI_summarize(data.nii_suit,'atlas', atlas_MDTB10);
-% suit_ROI_summarize(data.nii_suit,'atlas', atlas_SUIT);
