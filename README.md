@@ -12,10 +12,10 @@ Matching and confounder are the 2 main tools used in this analysis.
 
 | (More details will be added latter.)
 
-Pre-registration of this research is located here:
+Pre-registration report:
 -------------
 
-(will update)
+    The [pre-registration report on OSF](https://osf.io/ucrxf/).
 
 Requirements
 -------------
