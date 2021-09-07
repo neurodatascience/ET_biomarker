@@ -18,16 +18,16 @@ atlas_path = fullfile(out_path, 'm_tools', 'atlasPackage', 'atlasesMNI'); addpat
 %% selection of altas, atlas='SUIT' or atlas='SUIT';
 atlas_MDTB10=fullfile(spm_path, 'toolbox/suit/atlasesSUIT/MDTB_10Regions.nii');
 atlas_SUIT=fullfile(spm_path, 'toolbox/suit/atlasesSUIT/Lobules-SUIT.nii');
-atlas='MDTB';
+atlas='SUIT'; %MDTB
 switch atlas
     case 'MDTB', curr_atlas=atlas_MDTB10; curr_atlas_str='iw_MDTB_10Regions_u_a_';
     otherwise,   curr_atlas=atlas_SUIT;   curr_atlas_str='iw_Lobules-SUIT_u_a_';
 end
-roi_tab = NaN(data.n_sub, num_lobules);
 
 %
 Vatlas=spm_vol(curr_atlas);X=spm_read_vols(Vatlas); num_lobules = max(X(:));
 data=tdfread(sub_list_file,'\t'); data.n_sub=length(data.participant_id); data.lobules={};
+roi_tab = NaN(data.n_sub, num_lobules);
 %% unzip all nii.gz to .nii for all subjects
 data.t1_in={}; data.nii_out={}; data.t1_name={}; data.roi={}; data.mask={}; data.roi_sum={};
 data.gm={}; data.wm={}; data.aff={}; data.deform={}; data.nii_suit={}; data.norm_pass={}; data.seg_pass={};
@@ -42,7 +42,7 @@ for i_ = 1:data.n_sub
     data.aff{end+1} = ['Affine_', image_str,'_seg1.mat']; data.deform{end+1} = ['u_a_', image_str,'_seg1.nii'];
     data.roi_sum{end+1}=fullfile( output_path, [image_str, '_roi.txt']);
     % execution: unzip nii.gz -> .nii
-    gunzip(fullfile(data_path, t1_name), output_path); 
+    %gunzip(fullfile(data_path, t1_name), output_path); 
 end
 
 %% initialize spm

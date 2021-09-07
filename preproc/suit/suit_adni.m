@@ -23,11 +23,11 @@ switch atlas
     case 'MDTB', curr_atlas=atlas_MDTB10; curr_atlas_str='iw_MDTB_10Regions_u_a_';
     otherwise,   curr_atlas=atlas_SUIT;   curr_atlas_str='iw_Lobules-SUIT_u_a_';
 end
-roi_tab = NaN(data.n_sub, num_lobules);
 
 %
 Vatlas=spm_vol(curr_atlas);X=spm_read_vols(Vatlas); num_lobules = max(X(:));
 data=tdfread(sub_list_file,'\t'); data.n_sub=length(data.participant_id); data.lobules={};
+roi_tab = NaN(data.n_sub, num_lobules);
 %% unzip all nii.gz to .nii for all subjects
 data.t1_in={}; data.nii_out={}; data.t1_name={}; data.roi={}; data.mask={}; data.roi_sum={};
 data.gm={}; data.wm={}; data.aff={}; data.deform={}; data.nii_suit={}; data.norm_pass={}; data.seg_pass={};
