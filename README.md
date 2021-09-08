@@ -12,10 +12,10 @@ Matching and confounder are the 2 main tools used in this analysis.
 
 | (More details will be added latter.)
 
-Pre-registration of this research is located here:
+Pre-registration report:
 -------------
 
-(will update)
+    `Pre-registration report  <https://osf.io/ucrxf/>`_ on OSF.
 
 Requirements
 -------------
@@ -28,8 +28,8 @@ Dependencies :
 * `pandas <https://pandas.pydata.org/>`_
 * `scipy <https://www.scipy.org/>`_
 * `scikit-learn <http://scikit-learn.org/stable/>`_
-* `statsmodels>=0.12.0 <https://www.statsmodels.org/stable/index.html>`
-* `pydicom>=2.1.2 <https://www.statsmodels.org/stable/index.html>`
+* `statsmodels>=0.12.0 <https://www.statsmodels.org/stable/index.html>`_
+* `pydicom>=2.1.2 <https://www.statsmodels.org/stable/index.html>`_
 
 Installation (need update)
 ------------

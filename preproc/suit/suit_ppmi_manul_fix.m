@@ -18,7 +18,7 @@ atlas_path = fullfile(out_path, 'm_tools', 'atlasPackage', 'atlasesMNI'); addpat
 %% selection of altas, atlas='SUIT' or atlas='SUIT';
 atlas_MDTB10=fullfile(spm_path, 'toolbox/suit/atlasesSUIT/MDTB_10Regions.nii');
 atlas_SUIT=fullfile(spm_path, 'toolbox/suit/atlasesSUIT/Lobules-SUIT.nii');
-atlas='MDTB';
+atlas='MDTB';  % SUIT
 switch atlas
     case 'MDTB', curr_atlas=atlas_MDTB10; curr_atlas_str='iw_MDTB_10Regions_u_a_';
     otherwise, curr_atlas = atlas_SUIT; curr_atlas_str='iw_Lobules-SUIT_u_a_';
@@ -68,7 +68,6 @@ spm fmri
 % for i_ = 1:data.n_sub
 %     %tic
 %     %disp(['isolateing + normalization ', num2str(i_),' in ', num2str(data.n_sub), ' :', data.participant_id(i_,:)]);
-%     
 %     % segmentation: cerebelum isolation
 %     %suit_isolate_seg({image_file});
 %     data.norm_pass{i_}=1;
@@ -83,8 +82,8 @@ spm fmri
 % map subject space -> SUIT space
 %suit_normalize_dartel(job_n) 
 
-%% Failure subjects based on normalization errors RUN1
-norm_err_sub_index_r1 = [10,26,27,28,29,31,46,63,64,65,66,67,69,75,76,99,101,102,111];
+%% Failure subjects based on normalization errors RUN1 (19 in total), which directly give errors in processing
+%norm_err_sub_index_r1 = [10,26,27,28,29,31,46,63,64,65,66,67,69,75,76,99,101,102,111];
 % index=28, 'sub-3271' reporting problem, skipped.
 % index=29, 'sub-3274' reporting problem, skipped.
 % index=31, 'sub-3277' reporting problem, skipped.
@@ -103,8 +102,7 @@ norm_err_sub_index_r1 = [10,26,27,28,29,31,46,63,64,65,66,67,69,75,76,99,101,102
 % index=111, 'sub-4004' reporting problem, skipped.
 % index=62, 'sub-3544' not converted, error in converting from dicom to BIDS.
 
-%% Failure subjects based on too small value errors: RUN2
-% norm_err_sub_ind_r2 = [10,26,27,28,29,31,46,63,64,65,66,67,69,75,76,99,101,102,111];
+%% Failure subjects based on too small value errors RUN2, screened by python visualization, totally 41.
 % norm_err_sub_r2 = {'sub-3000', 'sub-3029', 'sub-3115', 'sub-3151', 'sub-3156', 'sub-3157', ...
 %     'sub-3160', 'sub-3165', 'sub-3169', 'sub-3171', 'sub-3172', 'sub-3188', ...
 %     'sub-3257', 'sub-3260', 'sub-3276', 'sub-3301', 'sub-3310', 'sub-3316', ...
@@ -112,21 +110,21 @@ norm_err_sub_index_r1 = [10,26,27,28,29,31,46,63,64,65,66,67,69,75,76,99,101,102
 %     'sub-3369', 'sub-3370', 'sub-3389', 'sub-3569', 'sub-3571', 'sub-3600', ...
 %     'sub-3610', 'sub-3611', 'sub-3615', 'sub-3620', 'sub-3624', 'sub-3627', ...
 %     'sub-3635', 'sub-3637', 'sub-3756', 'sub-4018', 'sub-4032'};
-% norm_err_sub_ind_r2=[];
-% % sub_str='sub-3544';
-% for tmp_j_ =1:length(norm_err_sub_r2)
+% norm_err_sub_ind_r2=zeros(1,length(norm_err_sub_r2));
+% for i_sub =1:length(norm_err_sub_r2)
+%     sub_str=norm_err_sub_r2{i_sub};
 %     for tmp_i = 1:data.n_sub
-%         if data.participant_id(tmp_i,:)==norm_err_sub_r2{tmp_j_}
-%             norm_err_sub_ind_r2(end+1)=tmp_i;
+%         if data.participant_id(tmp_i,:)==sub_str;
+%             disp([num2str(tmp_i), ': ', sub_str])
+%             norm_err_sub_ind_r2(i_sub)=tmp_i;
 %         end
-%      end
-%  end
-% norm_err_sub_ind_r2
-% %% assign flag values for norm_err_sub_ind_r2 rerun subjects
-% for i_ = 1:data.n_sub; data.norm_pass{i_}=1; end;
-% for i = 1:length(norm_err_sub_ind_r2); data.norm_pass{norm_err_sub_ind_r2(i)}= 0; end;
+%     end
+% end
+    
+% for i_ = 1:data.n_sub; data.norm_pass{i_}=1; end
+% for i = 1:length(norm_err_sub_ind_r2); data.norm_pass{norm_err_sub_ind_r2(i)}= 0; end %put flag for error subject in R2
 % data.norm_pass{62}=0;
-% %% fix list of error subjects normalization
+% fix list of error subjects normalization R2
 % k=1
 % for i_ = 1:data.n_sub
 %     if data.norm_pass{i_}==0
@@ -140,11 +138,57 @@ norm_err_sub_index_r1 = [10,26,27,28,29,31,46,63,64,65,66,67,69,75,76,99,101,102
 %         delete(fullfile(output_path, ['iw_MDTB_10Regions_u_a_', data.gm{i_}]), fullfile(output_path, ['iw_Lobules-SUIT_u_a_', data.gm{i_}]))
 %         suit_isolate_seg({data.nii_out{i_}}); % segmentation: cerebelum isolation
 %         disp(['normalization ', num2str(i_),' in ', num2str(data.n_sub), ' :', data.participant_id(i_,:)]);
+% 
 %         %normalize to SUIT space, generate affine and deformation field.
 %         job_err.subjND(k).gray={fullfile(output_path,data.gm{i_})}; 
 %         job_err.subjND(k).white={ fullfile(output_path,data.wm{i_})};
 %         job_err.subjND(k).isolation={fullfile(output_path,data.mask{i_})}; 
 %         k=k+1;
+%         data.norm_pass{i_}= 1; %Refresh subject failure flags after correction.
+%         toc
+%     end
+% end
+% %map subject space -> SUIT space
+% suit_normalize_dartel(job_err)
+
+%% Failure subjects based on too small value errors RUN3, screened by python visualization, totally 5.
+% norm_err_sub_ind_r3= [5, 7, 11, 17, 97, 115];
+% norm_err_sub_r3 = {'sub_3011', 'sub_3016', 'sub-3114', 'sub-3161', 'sub-3811', 'sub-4085'};
+
+% for i_sub =1:length(norm_err_sub_r2)
+%     sub_str=norm_err_sub_r2{i_sub};
+%     for tmp_i = 1:data.n_sub
+%         if data.participant_id(tmp_i,:)==sub_str;
+%             disp([num2str(tmp_i), ': ', sub_str])
+%             norm_err_sub_ind_r2(i_sub)=tmp_i;
+%         end
+%     end
+% end
+    
+for i_ = 1:data.n_sub; data.norm_pass{i_}=1; end
+% for i = 1:length(norm_err_sub_ind_r3); data.norm_pass{norm_err_sub_ind_r3(i)}= 0; end %put flag for error subject in R2
+% data.norm_pass{62}=0;
+% fix list of error subjects normalization R3
+% k=1;
+% for i_ = 1:data.n_sub
+%     if data.norm_pass{i_}==0
+%         data.participant_id(i_,:)
+%         %del_list
+%         tic
+%         delete(fullfile(output_path, data.gm{i_}), fullfile(output_path, data.wm{i_}))
+%         delete(fullfile(output_path, data.mask{i_}), fullfile(output_path, data.aff{i_}))
+%         delete(fullfile(output_path, data.deform{i_}), fullfile(output_path, ['a_', data.gm{i_}]),fullfile(output_path, ['a_', data.wm{i_}]))
+%         delete(fullfile(output_path, ['c_', data.t1_name{i_},'.nii']),fullfile(output_path, ['m', data.gm{i_}]),fullfile(output_path, ['m', data.wm{i_}]))
+%         delete(fullfile(output_path, ['iw_MDTB_10Regions_u_a_', data.gm{i_}]), fullfile(output_path, ['iw_Lobules-SUIT_u_a_', data.gm{i_}]))
+%         suit_isolate_seg({data.nii_out{i_}}); % segmentation: cerebelum isolation
+%         disp(['normalization ', num2str(i_),' in ', num2str(data.n_sub), ' :', data.participant_id(i_,:)]);
+% 
+%         %normalize to SUIT space, generate affine and deformation field.
+%         job_err.subjND(k).gray={fullfile(output_path,data.gm{i_})}; 
+%         job_err.subjND(k).white={ fullfile(output_path,data.wm{i_})};
+%         job_err.subjND(k).isolation={fullfile(output_path,data.mask{i_})}; 
+%         k=k+1;
+%         data.norm_pass{i_}= 1; %Refresh subject failure flags after correction.
 %         toc
 %     end
 % end
@@ -152,23 +196,27 @@ norm_err_sub_index_r1 = [10,26,27,28,29,31,46,63,64,65,66,67,69,75,76,99,101,102
 % suit_normalize_dartel(job_err)
 
 %% fix single subject normalization 
-% i_err = 27;
+%sub_3011,sub_3016
+
+% i_err = 4; %i_err = 6;
+% delete(fullfile(output_path, data.gm{i_err}), fullfile(output_path, data.wm{i_err}))
+% delete(fullfile(output_path, data.mask{i_err}), fullfile(output_path, data.aff{i_err}))
+% delete(fullfile(output_path, data.deform{i_err}), fullfile(output_path, ['a_', data.gm{i_err}]),fullfile(output_path, ['a_', data.wm{i_err}]))
+% delete(fullfile(output_path, ['c_', data.t1_name{i_err},'.nii']),fullfile(output_path, ['m', data.gm{i_err}]),fullfile(output_path, ['m', data.wm{i_err}]))
+% delete(fullfile(output_path, ['iw_MDTB_10Regions_u_a_', data.gm{i_err}]), fullfile(output_path, ['iw_Lobules-SUIT_u_a_', data.gm{i_err}]))
 % suit_isolate_seg({data.nii_out{i_err}}); % segmentation: cerebelum isolation
 % job_err.subjND(1).gray={fullfile(output_path,data.gm{i_err})}; 
 % job_err.subjND(1).white={ fullfile(output_path,data.wm{i_err})};
 % job_err.subjND(1).isolation={fullfile(output_path,data.mask{i_err})}; 
 % suit_normalize_dartel(job_err)
-
-%% Refresh subject failure flags after correction.
-%% all subject suit seg fixed:
-for i_ = 1:data.n_sub; data.norm_pass{i_}=1; end;
-norm_err_sub_index_r2 = [62]; % sub-3544 has no data.
-for i = 1:length(norm_err_sub_index_r2); data.norm_pass{norm_err_sub_index_r2(i)}= 0; end;
-
+% 
+% for i_ = 1:data.n_sub; data.norm_pass{i_}=0; end
+% data.norm_pass{i_err}=1;
+% data.norm_pass{4}=1; data.norm_pass{6}=1;
 %% Register atlas to participant_id to calculate vol size
+
 for i_ = 1:data.n_sub
     if data.norm_pass{i_}==1
-        %i_=66
         disp(['registering to atlas ', num2str(i_),' in ', num2str(data.n_sub), ' :', data.participant_id(i_,:)]);
         job_s.Affine={fullfile(output_path,data.aff{i_})};
         job_s.flowfield={fullfile(output_path,data.deform{i_})};
@@ -189,14 +237,16 @@ for i_ = 1:data.n_sub
     end
 end
 
-
 %% save results
 switch atlas
     case 'MDTB', csvwrite(MDTB_tab_out_file, roi_tab);
     otherwise,   csvwrite(SUIT_tab_out_file, roi_tab);
 end
 
-%% test code
-% summarize volumes (no participant_idea what we need this function for)
-%suit_ROI_summarize(data.nii_suit,'atlas', atlas_MDTB10);
-% suit_ROI_summarize(data.nii_suit,'atlas', atlas_SUIT);
+%% for debugging
+%aff_mat = load(fullfile(output_path,'Affine_sub-3624_run-1_desc-preproc_T1w_seg1.mat'));
+%img_mat = spm_vol(fullfile(output_path,'sub-3624_run-1_desc-preproc_T1w_seg1.nii'));
+%M=spm_imatrix(aff_mat.Affine);
+%reg_imgg_mat=spm_get_space(img_mat, M*img_mat.mat);
+
+

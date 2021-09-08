@@ -3,7 +3,7 @@
 # Use Ubuntu 16.04 LTS
 FROM ubuntu:focal-20210416
 
-ENV TZ=Asia/Dubai
+ENV TZ=America/Toronto
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 #RUN apt update

@@ -15,13 +15,6 @@
 DATA_NAME=(${@:1:1})
 CON_IMG=(${@:2:1})
 
-# PPMI N=117
-# ADNI N=???
-# MNI-ET N = 42
-# MNI-PD N = 56
-# MNI-NC N = 36
-#SBATCH --array=1-117
-
 WD_DIR=${HOME}/scratch
 DATA_DIR=${WD_DIR}/${DATA_NAME}
 BIDS_DIR=${DATA_DIR}_BIDS
@@ -70,7 +63,7 @@ cmd="${SINGULARITY_CMD} /data /output participant --participant-label $SUB_ID \
 -w /work --output-spaces MNI152NLin2009cAsym:res-2 anat fsnative fsaverage5 \
 --fs-subjects-dir /fsdir \
 --fs-license-file /home/fmriprep/.freesurfer/license.txt \
---cifti-out 91k --return-all-components --anat-only \
+--cifti-out 91k --return-all-components --anat-only --ignore t2w \
 --write-graph --skip_bids_validation --notrack --resource-monitor"
 # --bids-filter-file ${BIDS_FILTER} e.g.  --bids-filter-file /codes/pre_opt.json\
 # Setup done, run the command
