@@ -62,7 +62,7 @@ end
 for i_ = 1:data.n_sub; data.norm_pass{i_}=1; end
 for i = 1:length(norm_err_sub_ind_r1); data.norm_pass{norm_err_sub_ind_r1(i)}= 0; end %put flag for error subject in R2
 % fix list of error subjects normalization R2
-k=1
+k=1;
 for i_ = 1:data.n_sub
     if data.norm_pass{i_}==0
         data.participant_id(i_,:)
@@ -86,6 +86,21 @@ for i_ = 1:data.n_sub
 end
 %map subject space -> SUIT space
 suit_normalize_dartel(job_err)
+%% fix single subject norm
+%% fix single subject normalization 
+%sub_3011,sub_3016
+
+i_err = 274; %%[270, 274, ]
+delete(fullfile(output_path, data.gm{i_err}), fullfile(output_path, data.wm{i_err}))
+delete(fullfile(output_path, data.mask{i_err}), fullfile(output_path, data.aff{i_err}))
+delete(fullfile(output_path, data.deform{i_err}), fullfile(output_path, ['a_', data.gm{i_err}]),fullfile(output_path, ['a_', data.wm{i_err}]))
+delete(fullfile(output_path, ['c_', data.t1_name{i_err},'.nii']),fullfile(output_path, ['m', data.gm{i_err}]),fullfile(output_path, ['m', data.wm{i_err}]))
+delete(fullfile(output_path, ['iw_MDTB_10Regions_u_a_', data.gm{i_err}]), fullfile(output_path, ['iw_Lobules-SUIT_u_a_', data.gm{i_err}]))
+suit_isolate_seg({data.nii_out{i_err}}); % segmentation: cerebelum isolation
+job_err1.subjND(1).gray={fullfile(output_path,data.gm{i_err})}; 
+job_err1.subjND(1).white={ fullfile(output_path,data.wm{i_err})};
+job_err1.subjND(1).isolation={fullfile(output_path,data.mask{i_err})}; 
+suit_normalize_dartel(job_err1)
 
 %% reset norm_pass to 1 to do segmentation for all subjects
 % for i = 1:length(data.participant_id)
@@ -94,8 +109,9 @@ suit_normalize_dartel(job_err)
 % end
 
 %% register atlas to indivparticipant_idual can calculate vol size
+ind_start = 274; 
 for i_ = 1:data.n_sub
-    if data.norm_pass{i_}==1
+    if (data.norm_pass{i_}==1)& (i_>=ind_start)
         disp(['registering to atlas ', num2str(i_),' in ', num2str(data.n_sub), ' :', data.participant_id(i_,:)]);
         job_s.Affine={fullfile(output_path,data.aff{i_})};
         job_s.flowfield={fullfile(output_path,data.deform{i_})};
