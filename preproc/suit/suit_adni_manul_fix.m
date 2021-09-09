@@ -45,8 +45,9 @@ end
 
 %% initialize spm
 spm fmri
-%% normalization errors in R1: 141 in total:
-norm_err_sub_r1={'sub-002S4262', 'sub-002S4264', 'sub-002S4270', 'sub-003S0981', 'sub-003S4081', 'sub-003S4288', 'sub-003S4350', 'sub-003S4441', 'sub-003S4555', 'sub-003S4644', 'sub-005S0610', 'sub-006S4150', 'sub-006S4357', 'sub-006S4449', 'sub-006S4485', 'sub-007S1206', 'sub-009S4337', 'sub-009S4612', 'sub-010S4345', 'sub-010S4442', 'sub-011S0021', 'sub-011S4075', 'sub-011S4105', 'sub-011S4120', 'sub-011S4222', 'sub-013S4579', 'sub-013S4580', 'sub-013S4731', 'sub-014S0519', 'sub-014S0520', 'sub-014S4080', 'sub-014S4093', 'sub-014S4401', 'sub-014S4576', 'sub-014S4577', 'sub-016S0359', 'sub-016S4097', 'sub-016S4121', 'sub-016S4638', 'sub-016S4688', 'sub-016S4951', 'sub-018S4400', 'sub-019S4835', 'sub-021S4421', 'sub-022S0096', 'sub-022S4173', 'sub-022S4196', 'sub-022S4320', 'sub-023S0058', 'sub-023S1190', 'sub-023S4448', 'sub-024S4084', 'sub-024S4158', 'sub-027S0120', 'sub-029S4279', 'sub-029S4384', 'sub-029S4385', 'sub-029S4585', 'sub-031S0618', 'sub-031S4021', 'sub-031S4218', 'sub-031S4474', 'sub-031S4496', 'sub-032S0479', 'sub-032S0677', 'sub-032S1169', 'sub-032S4277', 'sub-032S4429', 'sub-033S0741', 'sub-033S1016', 'sub-036S4389', 'sub-036S4878', 'sub-037S0303', 'sub-037S0467', 'sub-037S4028', 'sub-037S4071', 'sub-037S4308', 'sub-037S4410', 'sub-041S4037', 'sub-041S4060', 'sub-041S4083', 'sub-041S4200', 'sub-041S4427', 'sub-041S4509', 'sub-051S1123', 'sub-067S0056', 'sub-067S0059', 'sub-067S0257', 'sub-068S0210', 'sub-068S4340', 'sub-068S4424', 'sub-070S5040', 'sub-072S0315', 'sub-072S4103', 'sub-072S4391', 'sub-073S0089', 'sub-073S0311', 'sub-073S4155', 'sub-073S4382', 'sub-073S4393', 'sub-073S4552', 'sub-073S4559', 'sub-073S4795', 'sub-073S5023', 'sub-082S1256', 'sub-082S4090', 'sub-082S4224', 'sub-094S4503', 'sub-098S0171', 'sub-098S0896', 'sub-098S4018', 'sub-098S4506', 'sub-099S0352', 'sub-099S4076', 'sub-100S4469', 'sub-100S5246', 'sub-114S0416', 'sub-116S0382', 'sub-116S1232', 'sub-123S0106', 'sub-127S0259', 'sub-127S4148', 'sub-127S4645', 'sub-128S0545', 'sub-128S0863', 'sub-128S1242', 'sub-128S4586', 'sub-128S4609', 'sub-131S0123', 'sub-131S0441', 'sub-135S4446', 'sub-135S4598', 'sub-136S4726', 'sub-136S4727', 'sub-137S4482', 'sub-137S4587', 'sub-137S4632', 'sub-141S0767', 'sub-153S4139', 'sub-941S1195', 'sub-941S1202'};
+%% normalization errors in R1: 141 in total, R2 67 in total: 
+%norm_err_sub_r1={'sub-002S4262', 'sub-002S4264', 'sub-002S4270', 'sub-003S0981', 'sub-003S4081', 'sub-003S4288', 'sub-003S4350', 'sub-003S4441', 'sub-003S4555', 'sub-003S4644', 'sub-005S0610', 'sub-006S4150', 'sub-006S4357', 'sub-006S4449', 'sub-006S4485', 'sub-007S1206', 'sub-009S4337', 'sub-009S4612', 'sub-010S4345', 'sub-010S4442', 'sub-011S0021', 'sub-011S4075', 'sub-011S4105', 'sub-011S4120', 'sub-011S4222', 'sub-013S4579', 'sub-013S4580', 'sub-013S4731', 'sub-014S0519', 'sub-014S0520', 'sub-014S4080', 'sub-014S4093', 'sub-014S4401', 'sub-014S4576', 'sub-014S4577', 'sub-016S0359', 'sub-016S4097', 'sub-016S4121', 'sub-016S4638', 'sub-016S4688', 'sub-016S4951', 'sub-018S4400', 'sub-019S4835', 'sub-021S4421', 'sub-022S0096', 'sub-022S4173', 'sub-022S4196', 'sub-022S4320', 'sub-023S0058', 'sub-023S1190', 'sub-023S4448', 'sub-024S4084', 'sub-024S4158', 'sub-027S0120', 'sub-029S4279', 'sub-029S4384', 'sub-029S4385', 'sub-029S4585', 'sub-031S0618', 'sub-031S4021', 'sub-031S4218', 'sub-031S4474', 'sub-031S4496', 'sub-032S0479', 'sub-032S0677', 'sub-032S1169', 'sub-032S4277', 'sub-032S4429', 'sub-033S0741', 'sub-033S1016', 'sub-036S4389', 'sub-036S4878', 'sub-037S0303', 'sub-037S0467', 'sub-037S4028', 'sub-037S4071', 'sub-037S4308', 'sub-037S4410', 'sub-041S4037', 'sub-041S4060', 'sub-041S4083', 'sub-041S4200', 'sub-041S4427', 'sub-041S4509', 'sub-051S1123', 'sub-067S0056', 'sub-067S0059', 'sub-067S0257', 'sub-068S0210', 'sub-068S4340', 'sub-068S4424', 'sub-070S5040', 'sub-072S0315', 'sub-072S4103', 'sub-072S4391', 'sub-073S0089', 'sub-073S0311', 'sub-073S4155', 'sub-073S4382', 'sub-073S4393', 'sub-073S4552', 'sub-073S4559', 'sub-073S4795', 'sub-073S5023', 'sub-082S1256', 'sub-082S4090', 'sub-082S4224', 'sub-094S4503', 'sub-098S0171', 'sub-098S0896', 'sub-098S4018', 'sub-098S4506', 'sub-099S0352', 'sub-099S4076', 'sub-100S4469', 'sub-100S5246', 'sub-114S0416', 'sub-116S0382', 'sub-116S1232', 'sub-123S0106', 'sub-127S0259', 'sub-127S4148', 'sub-127S4645', 'sub-128S0545', 'sub-128S0863', 'sub-128S1242', 'sub-128S4586', 'sub-128S4609', 'sub-131S0123', 'sub-131S0441', 'sub-135S4446', 'sub-135S4598', 'sub-136S4726', 'sub-136S4727', 'sub-137S4482', 'sub-137S4587', 'sub-137S4632', 'sub-141S0767', 'sub-153S4139', 'sub-941S1195', 'sub-941S1202'};
+norm_err_sub_r1={'sub-003S0981', 'sub-003S4840', 'sub-003S4872', 'sub-003S4900', 'sub-007S4387', 'sub-007S4488', 'sub-007S4516', 'sub-007S4620', 'sub-011S0023', 'sub-013S4616', 'sub-014S0548', 'sub-016S4952', 'sub-020S1288', 'sub-021S0159', 'sub-021S0337', 'sub-021S4276', 'sub-021S4335', 'sub-021S4558', 'sub-022S0130', 'sub-022S4196', 'sub-023S0061', 'sub-023S4164', 'sub-029S0824', 'sub-029S4290', 'sub-032S4921', 'sub-033S4508', 'sub-035S0156', 'sub-035S4464', 'sub-036S4491', 'sub-037S0454', 'sub-053S4578', 'sub-068S0473', 'sub-068S4174', 'sub-094S4234', 'sub-094S4459', 'sub-094S4560', 'sub-094S4649', 'sub-098S4002', 'sub-098S4275', 'sub-099S4086', 'sub-099S4104', 'sub-114S0166', 'sub-116S4092', 'sub-116S4453', 'sub-123S0113', 'sub-123S0298', 'sub-126S0605', 'sub-127S0260', 'sub-127S4604', 'sub-127S4843', 'sub-128S0229', 'sub-128S0522', 'sub-128S4832', 'sub-129S0778', 'sub-129S4369', 'sub-129S4371', 'sub-129S4396', 'sub-129S4422', 'sub-130S0232', 'sub-130S0969', 'sub-130S4352', 'sub-135S4566', 'sub-153S4151', 'sub-941S1203', 'sub-941S4255', 'sub-941S4292', 'sub-941S4365'};
 norm_err_sub_ind_r1=zeros(1,length(norm_err_sub_r1));
 for i_sub =1:length(norm_err_sub_r1)
     sub_str=norm_err_sub_r1{i_sub};
@@ -70,7 +71,7 @@ for i_ = 1:data.n_sub
         tic
         delete(fullfile(output_path, data.gm{i_}), fullfile(output_path, data.wm{i_}))
         delete(fullfile(output_path, data.mask{i_}), fullfile(output_path, data.aff{i_}))
-        delete(fullfile(output_path, data.deform{i_}), fullfile(output_path, ['a_', data.gm{i_}]),fullfile(output_path, ['a_', data.wm{i_}]))
+        delete(fullfile(output_path, data.deform{i_}), fullfile(output_path, ['c_', data.gm{i_}]),fullfile(output_path, ['c_', data.wm{i_}]))
         delete(fullfile(output_path, ['c_', data.t1_name{i_},'.nii']),fullfile(output_path, ['m', data.gm{i_}]),fullfile(output_path, ['m', data.wm{i_}]))
         delete(fullfile(output_path, ['iw_MDTB_10Regions_u_a_', data.gm{i_}]), fullfile(output_path, ['iw_Lobules-SUIT_u_a_', data.gm{i_}]))
         suit_isolate_seg({data.nii_out{i_}}); % segmentation: cerebelum isolation
@@ -90,17 +91,17 @@ suit_normalize_dartel(job_err)
 %% fix single subject normalization 
 %sub_3011,sub_3016
 
-i_err = 274; %%[270, 274, ]
-delete(fullfile(output_path, data.gm{i_err}), fullfile(output_path, data.wm{i_err}))
-delete(fullfile(output_path, data.mask{i_err}), fullfile(output_path, data.aff{i_err}))
-delete(fullfile(output_path, data.deform{i_err}), fullfile(output_path, ['a_', data.gm{i_err}]),fullfile(output_path, ['a_', data.wm{i_err}]))
-delete(fullfile(output_path, ['c_', data.t1_name{i_err},'.nii']),fullfile(output_path, ['m', data.gm{i_err}]),fullfile(output_path, ['m', data.wm{i_err}]))
-delete(fullfile(output_path, ['iw_MDTB_10Regions_u_a_', data.gm{i_err}]), fullfile(output_path, ['iw_Lobules-SUIT_u_a_', data.gm{i_err}]))
-suit_isolate_seg({data.nii_out{i_err}}); % segmentation: cerebelum isolation
-job_err1.subjND(1).gray={fullfile(output_path,data.gm{i_err})}; 
-job_err1.subjND(1).white={ fullfile(output_path,data.wm{i_err})};
-job_err1.subjND(1).isolation={fullfile(output_path,data.mask{i_err})}; 
-suit_normalize_dartel(job_err1)
+% i_err = 274; %%[270, 274, ]
+% delete(fullfile(output_path, data.gm{i_err}), fullfile(output_path, data.wm{i_err}))
+% delete(fullfile(output_path, data.mask{i_err}), fullfile(output_path, data.aff{i_err}))
+% delete(fullfile(output_path, data.deform{i_err}), fullfile(output_path, ['a_', data.gm{i_err}]),fullfile(output_path, ['a_', data.wm{i_err}]))
+% delete(fullfile(output_path, ['c_', data.t1_name{i_err},'.nii']),fullfile(output_path, ['m', data.gm{i_err}]),fullfile(output_path, ['m', data.wm{i_err}]))
+% delete(fullfile(output_path, ['iw_MDTB_10Regions_u_a_', data.gm{i_err}]), fullfile(output_path, ['iw_Lobules-SUIT_u_a_', data.gm{i_err}]))
+% suit_isolate_seg({data.nii_out{i_err}}); % segmentation: cerebelum isolation
+% job_err1.subjND(1).gray={fullfile(output_path,data.gm{i_err})}; 
+% job_err1.subjND(1).white={ fullfile(output_path,data.wm{i_err})};
+% job_err1.subjND(1).isolation={fullfile(output_path,data.mask{i_err})}; 
+% suit_normalize_dartel(job_err1)
 
 %% reset norm_pass to 1 to do segmentation for all subjects
 % for i = 1:length(data.participant_id)
@@ -109,7 +110,7 @@ suit_normalize_dartel(job_err1)
 % end
 
 %% register atlas to indivparticipant_idual can calculate vol size
-ind_start = 274; 
+ind_start = 1; 
 for i_ = 1:data.n_sub
     if (data.norm_pass{i_}==1)& (i_>=ind_start)
         disp(['registering to atlas ', num2str(i_),' in ', num2str(data.n_sub), ' :', data.participant_id(i_,:)]);
