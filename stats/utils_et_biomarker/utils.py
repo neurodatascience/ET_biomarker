@@ -46,7 +46,12 @@ from sklearn.pipeline import make_pipeline
 #                 "roi_code": "audio_3mm", "mask": mask_audio_3mm}]
 
 ## my codes
-def sum_lr(data, var_list):
+def sum_lr(data, var_list, sufix_str):
+    '''
+    Create the left, right, and sum of the give var_list  for a dataframe.
+    input: 
+    output:
+    '''
     item_left   = [ "Left_"+x  for x in var_list];
     item_right  = [ "Right_"+x for x in var_list];
     for x in var_list:
@@ -57,7 +62,7 @@ def ctr_age(data, y_var):
     from sklearn import linear_model
     import numpy as np
     dat = data.copy(); n_all = dat.shape[0];
-    nc_data = dat[dat['diagnosis'] == 'NC']; n_nc = nc_data.shape[0];
+    nc_data = dat[dat['group'] == 'NC']; n_nc = nc_data.shape[0];
     x_nc = np.hstack((np.ones((n_nc,1)),  np.array(nc_data['age']).reshape(-1, 1))); 
     x_all= np.hstack((np.ones((n_all,1)), np.array(dat['age']).reshape(-1, 1)));
     reg_list = []; new_col=[];
@@ -95,7 +100,7 @@ def ctr_conf(data, ctr_var, y_var, method_name):
         dat_, col_, reg_list_ = ctr_age(dat, new_col);
         return dat_, new_col+col_, reg_list 
     if method_name == 'rm_norm': #residual based on nc
-        nc_data = dat[dat['diagnosis'] == 'NC']; n_nc = nc_data.shape[0];
+        nc_data = dat[dat['group'] == 'NC']; n_nc = nc_data.shape[0];
         x_nc = np.hstack((np.ones((n_nc,1)),  np.array(nc_data[ctr_var]))); 
         x_all= np.hstack((np.ones((n_all,1)), np.array(dat[ctr_var])));
         reg_list = []; new_col=[];
@@ -111,7 +116,7 @@ def ctr_conf(data, ctr_var, y_var, method_name):
         dat_, col_, reg_list_ = ctr_age(dat, new_col);
         return dat_, new_col+col_, reg_list 
     if method_name == 'rm_mean': # classical residual method based on nc
-        nc_data = dat[dat['diagnosis'] == 'NC']; n_nc = nc_data.shape[0];
+        nc_data = dat[dat['group'] == 'NC']; n_nc = nc_data.shape[0];
         nc_etiv_mean = np.mean(nc_data[ctr_var]);
         x_nc = np.array(nc_data[ctr_var]).reshape(-1, 1);
         reg_list = []; new_col=[];
@@ -126,7 +131,7 @@ def ctr_conf(data, ctr_var, y_var, method_name):
         dat_, col_, reg_list_ = ctr_age(dat, new_col);
         return dat_, new_col+col_, reg_list 
     if method_name == 'asm': # allometric scaling coefficient (ASC)
-        nc_data = dat[dat['diagnosis'] == 'NC']; n_nc = nc_data.shape[0]; 
+        nc_data = dat[dat['group'] == 'NC']; n_nc = nc_data.shape[0]; 
         x_nc = np.log10(np.hstack((np.ones((n_nc,1)),  np.array(nc_data[ctr_var]).reshape(-1, 1)))); 
         x_all= np.log10(np.hstack((np.ones((n_all,1)), np.array(dat[ctr_var]).reshape(-1, 1))));
         reg_list = []; new_col=[];
@@ -175,21 +180,12 @@ def sts_test(tar_list, data_df, stats_cols, alpha, n_permu, method_name):
     """calculate cohen d and wilcoxon test """
     out_df= pd.DataFrame();
     for k in tar_list:
-        sample_PD = data_df[data_df['diagnosis'] == 'PD'][[k]];
-        sample_ET = data_df[data_df['diagnosis'] == 'ET'][[k]];
-        sample_NC = data_df[data_df['diagnosis'] == 'NC'][[k]];
+        sample_ET = data_df[data_df['group'] == 'ET'][[k]];
+        sample_NC = data_df[data_df['group'] == 'NC'][[k]];
         [test_stat_etnc, p_val_etnc, samples_etnc] = permute_Stats(sample_ET, sample_NC, 'cohen_d', alpha, n_permu, 0); 
         (rs_etnc, p_etnc)=ranksums(sample_ET, sample_NC);
-        [test_stat_pdnc, p_val_pdnc, samples_pdnc] = permute_Stats(sample_PD, sample_NC, 'cohen_d', alpha, n_permu, 0);
-        (rs_pdnc, p_pdnc)=ranksums(sample_PD, sample_NC);
-        [test_stat_etpd, p_val_etpd, samples_etpd] = permute_Stats(sample_ET, sample_PD, 'cohen_d', alpha, n_permu, 0);
-        (rs_etpd, p_etpd)=ranksums(sample_ET, sample_PD);
         out_df=out_df.append(
         dict(zip(stats_cols, [k,'ETNC',test_stat_etnc, p_val_etnc, rs_etnc, p_etnc, method_name])), ignore_index=True);
-        out_df=out_df.append(
-        dict(zip(stats_cols, [k,'PDNC',test_stat_pdnc, p_val_pdnc, rs_pdnc, p_pdnc, method_name])), ignore_index=True);
-        out_df=out_df.append(
-        dict(zip(stats_cols, [k,'ETPD',test_stat_etpd, p_val_etpd, rs_etpd, p_etpd, method_name])), ignore_index=True);
     return out_df 
 
 def cohen_d(d1, d2):
