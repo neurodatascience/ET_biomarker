@@ -1,139 +1,161 @@
-import os
-import csv
-import time
-import numpy as np
-import pandas as pd
+# -*- coding: utf-8 -*-
+"""This is the utils library for the ET_biomarker project maintained by Qing Wang (Vincent)."
+Functions:
 
-import statsmodels.api as sm
-import statsmodels.formula.api as smf
-from statsmodels.formula.api import glm
-import statsmodels.stats as sts
-from scipy.stats import ranksums
+"""
+def add_pd_lr(data, var_list, sufix_str):
+    """Create the left, right, and sum of the give var_list for a dataframe.
+    
+    Parameters
+    ----------
+    data : pandas.DataFrame
+        The dataframe which contains the var_list left and right part.
+    var_list : :obj:`list` of :obj:`str`
+        The list of labels without left or right specified.
+    sufix_str : 'str'
+        The string for left and right, e.g. Right or rh. etc.
+    
+    Returns
+    -------
+    data : pandas.DataFrame
+        The dataframe which contains the var_list left, right and sum.
+    res_list : :obj:`list` of :obj:`str`
+        The newly added columns list.
 
-
-from os.path import join as opj
-from collections import (OrderedDict, namedtuple)
-
-from sklearn.base import clone
-from sklearn.utils import Bunch
-
-import nibabel as nib
-from nilearn import signal
-from nilearn.input_data import NiftiMasker
-from nilearn.image import load_img, concat_imgs, mean_img
-from sklearn.svm import LinearSVC
-from sklearn.pipeline import make_pipeline
-
-
-#mask_gm = os.path.join(ROOT_FOLDER, 'masks', 'gm_mask_3mm.nii.gz')
-#mask_audio_3mm = os.path.join(
-#    ROOT_FOLDER, 'masks', 'audio_mask_resampled_3mm.nii.gz')
-#language_mask_3mm = os.path.join(
-#    ROOT_FOLDER, 'masks', 'left_language_mask_3mm.nii.gz')
-
-
-# {"decoding_task": "ibc_tonotopy_cond", "alignment_data_label": "53_tasks",
-# "roi_code": "fullbrain", "mask": mask_gm}
-
-#WHOLEBRAIN_DATASETS = [{"decoding_task": ["ibc_tonotopy_cond",
-#                                          "ibc_rsvp"],
-#                        "alignment_data_label": "53_tasks",
-#                        "roi_code": "fullbrain", "mask": mask_gm}]
-
-#ROI_DATASETS = [{"decoding_task": "ibc_rsvp", "alignment_data_label": "53_tasks",
-#                "roi_code": "language_3mm", "mask": language_mask_3mm},
-#                {"decoding_task": "ibc_tonotopy_cond", "alignment_data_label": #"53_tasks",
-#                 "roi_code": "audio_3mm", "mask": mask_audio_3mm}]
-
-## my codes
-def sum_lr(data, var_list, sufix_str):
-    '''
-    Create the left, right, and sum of the give var_list  for a dataframe.
-    input: 
-    output:
-    '''
-    item_left   = [ "Left_"+x  for x in var_list];
-    item_right  = [ "Right_"+x for x in var_list];
+    """
+    left_suf = sufix_str[0]; right_suf = sufix_str[1];
     for x in var_list:
-        data[x] = data['Left_'+x]+ data['Right_'+x];
-    return data, var_list+item_left+item_right
+        data[x] = data[left_suf+x]+ data[right_suf+x];
+    columns_left   = [ left_suf+x  for x in var_list];
+    columns_right  = [ right_suf+x for x in var_list];
+    res_list = var_list+columns_left+columns_right;
+    return data, res_list
 
-def ctr_age(data, y_var):
+def ctr_by_nc(data, y_var, c_var, nc_group):
+    """Remove the c_var effect by prediction from control group.
+    
+    Parameters
+    ----------
+    data : pandas.DataFrame
+        The dataframe which contains the y_var and c_var.
+    y_var : :obj:`list` of :obj:`str`
+        The list of target columns to control c_var for. 
+    c_var : :obj:`str`
+        The list of column for y_var to control by.
+    nc_group : :obj:`str`
+        The control group label.
+    
+    Returns
+    -------
+    dat : pandas.DataFrame
+        The dataframe which contains the conlumns for y_var with c_var controled.
+    new_col : :obj:`list` of :obj:`str`
+        The newly added columns list (with c_var controled).
+    reg_list : :obj:`list` of :obj:`str`
+        The list of the regression models used.
+
+    """
     from sklearn import linear_model
     import numpy as np
+    if isinstance(c_var, str):
+        n_x=1
+    elif isinstance(c_var, list):
+        n_x=len(c_var)
+    else:
+        n_x=0
     dat = data.copy(); n_all = dat.shape[0];
-    nc_data = dat[dat['group'] == 'NC']; n_nc = nc_data.shape[0];
-    x_nc = np.hstack((np.ones((n_nc,1)),  np.array(nc_data['age']).reshape(-1, 1))); 
-    x_all= np.hstack((np.ones((n_all,1)), np.array(dat['age']).reshape(-1, 1)));
+    nc_data = dat[dat['group'] == nc_group]; n_nc = nc_data.shape[0];
+    x_nc = np.hstack((np.ones((n_nc,n_x)),  np.array(nc_data[c_var]).reshape(-1, n_x))); 
+    x_all= np.hstack((np.ones((n_all,n_x)), np.array(dat[c_var]).reshape(-1, n_x)));
     reg_list = []; new_col=[];
     for x in y_var:
         reg = linear_model.LinearRegression()
         y_nc= np.array(nc_data[x]);
         reg.fit(x_nc, y_nc);
-        tmp_col = x+"_xa"
+        if n_x>1:
+            tmp_col = x+"_"+"_".join(c_var)
+        else:
+            tmp_col = x+"_"+c_var
         dat[tmp_col] = dat[x]-np.matmul(x_all, reg.coef_)
-        new_col.append(tmp_col); 
+        new_col.append(tmp_col); reg_list.append(reg);
     return dat, new_col, reg_list
 
-def ctr_conf(data, ctr_var, y_var, method_name):
+def ctr_tiv(data, y_var, icv_var, ctr_var, method_name):
+    """Control the confounding effect with multiple methods: .
+    
+    Parameters
+    ----------
+    data : pandas.DataFrame
+        The dataframe which contains all the needed columns: y_var, icv_var, ctr_var, and 'group'.
+    y_var : :obj:`list` of :obj:`str`
+        The list of columns (ROI volumnes) to be corrected. 
+    icv_var : :obj:`str`
+        The intracranial volumne column used to correct the y_var.
+    ctr_var : :obj:`str`
+        The confounding effect ctr_var will be corrected by prediction from control group.
+    method_name : 'str'
+        The method name for intracranial volumne correction:
+        'dpa' : 
+        'ppa' :
+        'rm_norm' : 
+        'asm' : 
+    
+    Returns
+    -------
+    dat : pandas.DataFrame
+        The dataframe with corrected var_list colums added.
+    res_list : :obj:`list` of :obj:`str`
+        The newly added columns.
+
+    """
+    
     from sklearn import linear_model
     import numpy as np
+    
     dat = data.copy(); n_all = dat.shape[0];
+    print('Using ', method_name)
+    if isinstance(ctr_var, str):
+        comb_cvar=[icv_var, ctr_var]
+    elif isinstance(ctr_var, list):
+        comb_cvar=[icv_var]+ctr_var
+    else:
+        comb_cvar=[]
+    
     if method_name == 'dpa': # direct proportion adjustment
         new_col=[];
         for x in y_var:
             r_name = x+'_dpa'; new_col.append(r_name);
-            dat[r_name] = dat[x]/dat[ctr_var];
-        dat_, col_, reg_list_ = ctr_age(dat, new_col);
-        return dat_, new_col+col_
+            dat[r_name] = dat[x]/dat[icv_var];
+        dat_, col_, reg_list_ = ctr_by_nc(dat, new_col, ctr_var, 'NC');
+        res_col = new_col+col_;
+        print('New columns', str(len(res_col))+' : ', res_col)
+        return dat_, res_col
+    
     if method_name == 'ppa': # power_corrected_portion
         reg_list = []; new_col=[];
-        log_ctr  = np.log10(np.array(dat[ctr_var]));
+        log_ctr  = np.log10(np.array(dat[icv_var]));
         x_mat    = np.hstack((np.ones((n_all, 1)), np.reshape(log_ctr, [n_all, 1])))
         for x in y_var:
             reg = linear_model.LinearRegression()
             y = np.log10(np.array(dat[x]));
             reg.fit(x_mat, y);
             tmp_col = x + "_ppa";
-            dat[tmp_col] = dat[x]/np.power(dat[ctr_var],reg.coef_[1])
+            dat[tmp_col] = dat[x]/np.power(dat[icv_var],reg.coef_[1])
             reg_list.append(reg); new_col.append(tmp_col);
-        dat_, col_, reg_list_ = ctr_age(dat, new_col);
-        return dat_, new_col+col_, reg_list 
-    if method_name == 'rm_norm': #residual based on nc
-        nc_data = dat[dat['group'] == 'NC']; n_nc = nc_data.shape[0];
-        x_nc = np.hstack((np.ones((n_nc,1)),  np.array(nc_data[ctr_var]))); 
-        x_all= np.hstack((np.ones((n_all,1)), np.array(dat[ctr_var])));
-        reg_list = []; new_col=[];
-        for x in y_var:
-            reg = linear_model.LinearRegression()
-            y_nc= np.array(nc_data[x]);
-            reg.fit(x_nc, y_nc);
-            tmp_col = x+"_rm_norm"
-            dat[tmp_col] = dat[x]-np.matmul(x_all[:,1:], reg.coef_[1:])
-            #dat[tmp_col+"_rm_norm_resid"] = dat[x]-reg.predict(x_all)
-            #dat[tmp_col+"_rm_norm_resid_per"] = (dat[x]-reg.predict(x_all))/dat[x]
-            reg_list.append(reg); new_col.append(tmp_col);
-        dat_, col_, reg_list_ = ctr_age(dat, new_col);
-        return dat_, new_col+col_, reg_list 
-    if method_name == 'rm_mean': # classical residual method based on nc
-        nc_data = dat[dat['group'] == 'NC']; n_nc = nc_data.shape[0];
-        nc_etiv_mean = np.mean(nc_data[ctr_var]);
-        x_nc = np.array(nc_data[ctr_var]).reshape(-1, 1);
-        reg_list = []; new_col=[];
-        nc_ctr_mean = np.mean(nc_data[ctr_var]);
-        for x in y_var:
-            reg = linear_model.LinearRegression();
-            y_nc= np.array(nc_data[x]);
-            reg.fit(x_nc, y_nc);
-            tmp_col = x+"_rm_mean"
-            dat[tmp_col] = dat[x]-reg.coef_[0]*(dat[ctr_var]-nc_ctr_mean)
-            reg_list.append(reg); new_col.append(tmp_col);
-        dat_, col_, reg_list_ = ctr_age(dat, new_col);
-        return dat_, new_col+col_, reg_list 
+        dat_, col_, reg_list_ = ctr_by_nc(dat, new_col, ctr_var, 'NC');
+        res_col = new_col+col_;
+        print('New columns', str(len(res_col))+' : ', res_col)
+        return dat_, res_col
+    
+    if method_name == 'rm_norm': #residual based on n
+        dat_, res_col, reg_list_ = ctr_by_nc(dat, y_var, comb_cvar, 'NC')
+        print('New columns', str(len(res_col))+' : ', res_col)
+        return dat_, res_col
+    
     if method_name == 'asm': # allometric scaling coefficient (ASC)
         nc_data = dat[dat['group'] == 'NC']; n_nc = nc_data.shape[0]; 
-        x_nc = np.log10(np.hstack((np.ones((n_nc,1)),  np.array(nc_data[ctr_var]).reshape(-1, 1)))); 
-        x_all= np.log10(np.hstack((np.ones((n_all,1)), np.array(dat[ctr_var]).reshape(-1, 1))));
+        x_nc = np.log10(np.hstack((np.ones((n_nc,1)),  np.array(nc_data[icv_var]).reshape(-1, 1)))); 
+        x_all= np.log10(np.hstack((np.ones((n_all,1)), np.array(dat[icv_var]).reshape(-1, 1))));
         reg_list = []; new_col=[];
         for x in y_var:
             reg = linear_model.LinearRegression()
@@ -142,8 +164,11 @@ def ctr_conf(data, ctr_var, y_var, method_name):
             tmp_col = x+"_asm"
             dat[tmp_col] = np.log10(dat[x])-np.matmul(x_all[:,1:], reg.coef_[1:])
             reg_list.append(reg); new_col.append(tmp_col);
-        dat_, col_, reg_list_ = ctr_age(dat, new_col);
-        return dat_, new_col+col_, reg_list  
+        dat_, col_, reg_list_ = ctr_by_nc(dat, new_col, ctr_var, 'NC');
+        res_col = new_col+col_;
+        print('New columns', str(len(res_col))+' : ', res_col)
+        return dat_, res_col
+    
     if method_name == 'wdcr':# whole dataset confound regression
         pass
     if method_name == 'propensity_score_matching':# whole dataset confound regression
@@ -158,6 +183,25 @@ def ctr_conf(data, ctr_var, y_var, method_name):
     return 1
 
 def glm_test(data, tar_list, model_str):
+    """Doing simple GLM model for tar_list in the dataframe and return the model as dicts.
+    
+    Parameters
+    ----------
+    data: pandas.DataFrame
+    The dataframe which contains all the needed columns: tar_list.
+    tar_list: :obj:`list` of :obj:`str`
+    The list of dependent variables for the GLM model to test.
+    model_str: :obj:`str`
+    The GLM model string.
+    
+    Returns
+    -------
+    res_dict: :obj: dict of :obj: GLM models. Like: {tar_var:{'forluma': formula, 'res':res}}
+    
+    Example: 
+    
+    """
+
     res_dict={}
     for var_ in tar_list:
         res_dict[var_]={};
@@ -168,6 +212,18 @@ def glm_test(data, tar_list, model_str):
     return res_dict
 
 def rep_model(glm_dict):
+    """Reporting results from GLM models in glm_dict.
+    
+    Parameters
+    ----------
+    glm_dict: :obj: dict of :obj: 
+    GLM models. Like: {tar_var:{'forluma': formula, 'res':res}}
+    
+    Returns
+    -------
+    Nothing.
+        
+    """
     for k in glm_dict.keys():
         print('\n')
         print(glm_dict[k]['formula'],'\n')
@@ -176,32 +232,58 @@ def rep_model(glm_dict):
         print(glm_dict[k]['res'].summary2())
     return glm_dict
 
-def sts_test(tar_list, data_df, stats_cols, alpha, n_permu, method_name):
-    """calculate cohen d and wilcoxon test """
-    out_df= pd.DataFrame();
+def cal_es(data, tar_list,  stats_cols, alpha, n_permu, method_name):
+    """Calculate effect size Cohen's d with permutation test and wilcoxon ranksum test.
+    
+    Parameters
+    ----------
+    data: pandas.DataFrame
+    The dataframe which contains all the needed columns: tar_list.
+    
+    """
+
+    data_df = data.copy();  out_df= pd.DataFrame();
+    
     for k in tar_list:
-        sample_ET = data_df[data_df['group'] == 'ET'][[k]];
-        sample_NC = data_df[data_df['group'] == 'NC'][[k]];
-        [test_stat_etnc, p_val_etnc, samples_etnc] = permute_Stats(sample_ET, sample_NC, 'cohen_d', alpha, n_permu, 0); 
-        (rs_etnc, p_etnc)=ranksums(sample_ET, sample_NC);
+        sample_Pat = data_df[data_df['group'] == 'ET'][[k]]; sample_NC = data_df[data_df['group'] == 'NC'][[k]];
+        if 'permu' in method_name:
+            [val_permu, p_permu, samples] = permute_Stats(sample_Pat, sample_NC, 'cohen_d', alpha, n_permu, 0); 
+            
+        if 'rank_sum' in method_name:
+            (val_ranksum, p_ranksum)=ranksums(sample_Pat, sample_NC);
+            
         out_df=out_df.append(
-        dict(zip(stats_cols, [k,'ETNC',test_stat_etnc, p_val_etnc, rs_etnc, p_etnc, method_name])), ignore_index=True);
+        dict(zip(stats_cols, [k,'ETNC',val_permu, p_permu, val_ranksum, p_ranksum, method_name])), ignore_index=True);
     return out_df 
 
-def cohen_d(d1, d2):
-    # Cohen's d for independent samples with different sample sizes
-    import numpy as np
-    from math import sqrt
-    d1 =np.array(d1); d2 =np.array(d2);
-    n1, n2 = len(d1), len(d2) # calculate the size of samples
-    s1, s2 = np.var(d1, ddof=1), np.var(d2, ddof=1) # calculate the variance of the samples
-    s = sqrt(((n1 - 1) * s1 + (n2 - 1) * s2) / (n1 + n2 - 2)) # calculate the pooled standard deviation
-    u1, u2 = np.mean(d1), np.mean(d2) # calculate the means of the samples
-    d_coh_val = (u1 - u2) / s; # calculate the effect size
-    #print('Cohens d: %.3f' % d_coh_val)
-    return d_coh_val
-
 def permute_Stats(sample1, sample2, measure, alpha, reps, is_plot):
+    """Calculate test statistics by permutation.
+    
+    Parameters
+    ----------
+    sample1: :obj: list
+        test sample1.
+    sample2: :obj: list
+        test sample2.
+    measure: :obj: string
+        Test static, for example: Cohen's d. 
+    alpha : float
+        The significance level.
+    reps: int
+        Number of permutations.
+    is_plot : boolean
+        Flag to give a plot of permutation histogram.
+
+    Returns
+    -------
+    test_stat : :obj: list
+        The values of the test statistics.
+    p_val : :obj: list
+        The p-val of the test statistics.
+    samples : 
+        Permuation results.
+        
+    """
     import numpy as np
     np.random.seed(115)
     n1, n2 = map(len, (sample1, sample2));
@@ -222,6 +304,20 @@ def permute_Stats(sample1, sample2, measure, alpha, reps, is_plot):
         plt.axvline(np.percentile(samples, 100-alpha/2), linestyle='--',c='r')
     return [test_stat, p_val, samples]
 
+def cohen_d(d1, d2):
+    # Cohen's d for independent samples with different sample sizes
+    import numpy as np
+    from math import sqrt
+    d1 =np.array(d1); d2 =np.array(d2);
+    n1, n2 = len(d1), len(d2) # calculate the size of samples
+    s1, s2 = np.var(d1, ddof=1), np.var(d2, ddof=1) # calculate the variance of the samples
+    s = sqrt(((n1 - 1) * s1 + (n2 - 1) * s2) / (n1 + n2 - 2)) # calculate the pooled standard deviation
+    u1, u2 = np.mean(d1), np.mean(d2) # calculate the means of the samples
+    d_coh_val = (u1 - u2) / s; # calculate the effect size
+    #print('Cohens d: %.3f' % d_coh_val)
+    return d_coh_val
+
+
 def reformat_df(df, group_name, es_name):
     import statsmodels.stats as sts
     method_name=df['method'].unique();
@@ -234,32 +330,3 @@ def reformat_df(df, group_name, es_name):
                                                   method='fdr_bh', is_sorted=False, returnsorted=False)[1];
         es_list.append(es_list_); p_list.append(p_list_); p_multi_list.append(p_multi_list_);
     return es_list, p_list, p_multi_list, voi_name, method_name
-# reference codes
-def _check_srm_params(srm_components, srm_atlas, trains_align, trains_decode):
-    """
-    * Limit number of components depending on data size
-    * Reindex srm_atlas from 1 when masked atlas is not fullsize and some
-        labels are not present.
-    """
-    import nibabel as nib
-    if srm_atlas is not None and type(srm_atlas) != nib.nifti1.Nifti1Image:
-        n_atlas = len(np.unique(srm_atlas))
-        if not n_atlas - 1 == max(srm_atlas):
-            i = 1
-            for lab in np.unique(srm_atlas):
-                srm_atlas[srm_atlas == lab] = i
-                i += 1
-    else:
-        n_atlas = srm_components
-
-    srm_components_ = np.min([srm_components, load_img(
-        trains_align[0][0]).shape[-1], load_img(trains_decode[0][0]).shape[-1], n_atlas - 1])
-
-    return srm_components_, srm_atlas
-
-def fetch_resample_basc(mask, scale="444"):
-    from nilearn.datasets import fetch_atlas_basc_multiscale_2015
-    from nilearn.image import resample_to_img
-    basc = fetch_atlas_basc_multiscale_2015()['scale{}'.format(scale)]
-    resampled_basc = resample_to_img(basc, mask, interpolation='nearest')
-    return resampled_basc
