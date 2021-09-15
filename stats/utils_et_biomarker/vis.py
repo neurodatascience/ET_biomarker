@@ -131,14 +131,6 @@ def annotate_heatmap(im, data=None, valfmt="{x:.2f}",
             texts.append(text)
     return texts
 
-# test code
-#fig, ax = plt.subplots()
-#im, cbar = heatmap(harvest, vegetables, farmers, ax=ax, cmap="coolwarm", cbarlabel="p-val")
-#texts = annotate_heatmap(im, valfmt="{x:.4f}")
-#fig.tight_layout(); plt.show()
-
-
-
 ### reference codes
 def _clean_alignment(row, decomp):
     """

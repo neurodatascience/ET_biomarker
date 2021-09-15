@@ -3,6 +3,10 @@
 Functions:
 
 """
+import pandas as pd
+import numpy as np
+
+
 def add_pd_lr(data, var_list, sufix_str):
     """Create the left, right, and sum of the give var_list for a dataframe.
     
@@ -56,7 +60,7 @@ def ctr_by_nc(data, y_var, c_var, nc_group):
 
     """
     from sklearn import linear_model
-    import numpy as np
+
     if isinstance(c_var, str):
         n_x=1
     elif isinstance(c_var, list):
@@ -110,7 +114,6 @@ def ctr_tiv(data, y_var, icv_var, ctr_var, method_name):
     """
     
     from sklearn import linear_model
-    import numpy as np
     
     dat = data.copy(); n_all = dat.shape[0];
     print('Using ', method_name)
@@ -201,7 +204,7 @@ def glm_test(data, tar_list, model_str):
     Example: 
     
     """
-
+    import statsmodels.formula.api as smf
     res_dict={}
     for var_ in tar_list:
         res_dict[var_]={};
@@ -232,28 +235,45 @@ def rep_model(glm_dict):
         print(glm_dict[k]['res'].summary2())
     return glm_dict
 
-def cal_es(data, tar_list,  stats_cols, alpha, n_permu, method_name):
-    """Calculate effect size Cohen's d with permutation test and wilcoxon ranksum test.
+def cal_es(data, tar_list, alpha, n_permu, method_name, group_name):
+    """Calculate effect size, e.g. Cohen's d with permutation and wilcoxon ranksum test.
     
     Parameters
     ----------
     data: pandas.DataFrame
     The dataframe which contains all the needed columns: tar_list.
+    tar_list: :obj:`list` of :obj:`str`
+    The list of variables for the effect size calculation.
+    alpha: float
+    The significance level for the permutation test.
+    n_permu: :obj: int
+    The number of permutations for the permutation test.
+    method_name: :obj:`list` of :obj:`str`
+    The list of names for effect size calculation, e.g. ['Cohen_d', 'rank_sum'].
+    group_name: :obj:`list` of :obj:`str`
+    The list of names for the 2 groups for comparison, e.g. ['ET', 'NC'].
+    
+    Returns
+    -------
+    out_df: pandas.DataFrame
+    The effect size and p-val for the effect size calculation, format as ['ROI','group','test','ES','p_val'].
     
     """
-
-    data_df = data.copy();  out_df= pd.DataFrame();
-    
+    from scipy.stats import ranksums
+    data_df = data.copy(); out_df= pd.DataFrame();
+    group_name_='_'.join(group_name)
     for k in tar_list:
-        sample_Pat = data_df[data_df['group'] == 'ET'][[k]]; sample_NC = data_df[data_df['group'] == 'NC'][[k]];
-        if 'permu' in method_name:
-            [val_permu, p_permu, samples] = permute_Stats(sample_Pat, sample_NC, 'cohen_d', alpha, n_permu, 0); 
-            
+        sample_Pat = data_df[data_df['group'] == group_name[0]][[k]]; 
+        sample_NC  = data_df[data_df['group'] == group_name[1]][[k]];
+        if 'Cohen_d' in method_name:
+            [val_permu, p_permu, samples] = permute_Stats(sample_Pat, sample_NC, 'Cohen_d', alpha, n_permu, 0); 
+            out_df=out_df.append(dict(zip(['ROI','group','test','ES','p_val'],
+                                          [k, group_name_, 'Cohen_d', val_permu, p_permu])), ignore_index=True);
         if 'rank_sum' in method_name:
-            (val_ranksum, p_ranksum)=ranksums(sample_Pat, sample_NC);
-            
-        out_df=out_df.append(
-        dict(zip(stats_cols, [k,'ETNC',val_permu, p_permu, val_ranksum, p_ranksum, method_name])), ignore_index=True);
+            (val_ranksum, p_ranksum) = ranksums(sample_Pat, sample_NC);
+            out_df=out_df.append(dict(zip(['ROI','group','test','ES','p_val'],
+                                          [k, group_name_, 'rank_sum', val_ranksum, p_ranksum])), ignore_index=True);
+
     return out_df 
 
 def permute_Stats(sample1, sample2, measure, alpha, reps, is_plot):
@@ -284,13 +304,12 @@ def permute_Stats(sample1, sample2, measure, alpha, reps, is_plot):
         Permuation results.
         
     """
-    import numpy as np
     np.random.seed(115)
     n1, n2 = map(len, (sample1, sample2));
     data = np.concatenate([sample1, sample2])
     ps = np.array([np.random.permutation(n1+n2) for i in range(reps)])
     xp = data[ps[:, :n1]]; yp = data[ps[:, n1:]]
-    if measure == 'cohen_d':
+    if measure == 'Cohen_d':
         test_stat = cohen_d(sample1, sample2);
         samples = np.array([cohen_d(k, v) for k,v in zip(xp, yp)]);
     p_val = 2*np.sum(samples >= np.abs(test_stat))/reps;
@@ -306,7 +325,6 @@ def permute_Stats(sample1, sample2, measure, alpha, reps, is_plot):
 
 def cohen_d(d1, d2):
     # Cohen's d for independent samples with different sample sizes
-    import numpy as np
     from math import sqrt
     d1 =np.array(d1); d2 =np.array(d2);
     n1, n2 = len(d1), len(d2) # calculate the size of samples
