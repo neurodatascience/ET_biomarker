@@ -231,7 +231,7 @@ def rep_model(glm_dict):
         print('\n')
         print(glm_dict[k]['formula'],'\n')
         #print(glm_dict[k]['res'].rsquared)
-        print(glm_dict[k]['res'].summary())
+        #print(glm_dict[k]['res'].summary())
         print(glm_dict[k]['res'].summary2())
     return glm_dict
 
