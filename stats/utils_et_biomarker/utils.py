@@ -214,25 +214,36 @@ def glm_test(data, tar_list, model_str):
         res_dict[var_ ] = {'formula':formula, 'res':res};
     return res_dict
 
-def rep_model(glm_dict):
+def rep_model(glm_dict, repo_mode):
     """Reporting results from GLM models in glm_dict.
     
     Parameters
     ----------
     glm_dict: :obj: dict of :obj: 
     GLM models. Like: {tar_var:{'forluma': formula, 'res':res}}
+    rep_mode: :obj: string
+    Reporting mode.
     
     Returns
     -------
     Nothing.
         
     """
-    for k in glm_dict.keys():
-        print('\n')
-        print(glm_dict[k]['formula'],'\n')
-        #print(glm_dict[k]['res'].rsquared)
-        #print(glm_dict[k]['res'].summary())
-        print(glm_dict[k]['res'].summary2())
+    if repo_mode['name']=='all':
+        print("Display all results:\n")
+        for k in glm_dict.keys():
+            print('\n')
+            print(glm_dict[k]['formula'],'\n')
+            print(glm_dict[k]['res'].summary2())
+    if repo_mode['name']=='significant':
+        col_name = repo_mode['col_name'];
+        alpha_ = repo_mode['th'];
+        print("Only display significant results @",str(alpha_),' for ', col_name,' :\n' )
+        for k in glm_dict.keys():
+            if glm_dict[k]['res'].pvalues[col_name]<alpha_:
+                print('\n')
+                print(glm_dict[k]['formula'],'\n')
+                print(glm_dict[k]['res'].summary2())
     return glm_dict
 
 def cal_es(data, tar_list, alpha, n_permu, method_name, group_name, test_str):
