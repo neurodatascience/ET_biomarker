@@ -130,7 +130,7 @@ def ctr_tiv(data, y_var, icv_var, ctr_var, method_name):
             r_name = x+'_dpa'; new_col.append(r_name);
             dat[r_name] = dat[x]/dat[icv_var];
         dat_, col_, reg_list_ = ctr_by_nc(dat, new_col, ctr_var, 'NC');
-        res_col = new_col+col_;
+        res_col = col_;
         print('New columns', str(len(res_col))+' : ', res_col)
         return dat_, res_col
     
@@ -146,7 +146,7 @@ def ctr_tiv(data, y_var, icv_var, ctr_var, method_name):
             dat[tmp_col] = dat[x]/np.power(dat[icv_var],reg.coef_[1])
             reg_list.append(reg); new_col.append(tmp_col);
         dat_, col_, reg_list_ = ctr_by_nc(dat, new_col, ctr_var, 'NC');
-        res_col = new_col+col_;
+        res_col = col_;
         print('New columns', str(len(res_col))+' : ', res_col)
         return dat_, res_col
     
@@ -168,7 +168,7 @@ def ctr_tiv(data, y_var, icv_var, ctr_var, method_name):
             dat[tmp_col] = np.log10(dat[x])-np.matmul(x_all[:,1:], reg.coef_[1:])
             reg_list.append(reg); new_col.append(tmp_col);
         dat_, col_, reg_list_ = ctr_by_nc(dat, new_col, ctr_var, 'NC');
-        res_col = new_col+col_;
+        res_col = col_;
         print('New columns', str(len(res_col))+' : ', res_col)
         return dat_, res_col
     
@@ -214,28 +214,39 @@ def glm_test(data, tar_list, model_str):
         res_dict[var_ ] = {'formula':formula, 'res':res};
     return res_dict
 
-def rep_model(glm_dict):
+def rep_model(glm_dict, repo_mode):
     """Reporting results from GLM models in glm_dict.
     
     Parameters
     ----------
     glm_dict: :obj: dict of :obj: 
     GLM models. Like: {tar_var:{'forluma': formula, 'res':res}}
+    rep_mode: :obj: string
+    Reporting mode.
     
     Returns
     -------
     Nothing.
         
     """
-    for k in glm_dict.keys():
-        print('\n')
-        print(glm_dict[k]['formula'],'\n')
-        print(glm_dict[k]['res'].rsquared)
-        print(glm_dict[k]['res'].summary())
-        print(glm_dict[k]['res'].summary2())
+    if repo_mode['name']=='all':
+        print("Display all results:\n")
+        for k in glm_dict.keys():
+            print('\n')
+            print(glm_dict[k]['formula'],'\n')
+            print(glm_dict[k]['res'].summary2())
+    if repo_mode['name']=='significant':
+        col_name = repo_mode['col_name'];
+        alpha_ = repo_mode['th'];
+        print("Only display significant results @",str(alpha_),' for ', col_name,' :\n' )
+        for k in glm_dict.keys():
+            if glm_dict[k]['res'].pvalues[col_name]<alpha_:
+                print('\n')
+                print(glm_dict[k]['formula'],'\n')
+                print(glm_dict[k]['res'].summary2())
     return glm_dict
 
-def cal_es(data, tar_list, alpha, n_permu, method_name, group_name):
+def cal_es(data, tar_list, alpha, n_permu, method_name, group_name, test_str):
     """Calculate effect size, e.g. Cohen's d with permutation and wilcoxon ranksum test.
     
     Parameters
@@ -252,6 +263,8 @@ def cal_es(data, tar_list, alpha, n_permu, method_name, group_name):
     The list of names for effect size calculation, e.g. ['Cohen_d', 'rank_sum'].
     group_name: :obj:`list` of :obj:`str`
     The list of names for the 2 groups for comparison, e.g. ['ET', 'NC'].
+    test_str: :obj:`str`
+    The name str for this test as output column names.
     
     Returns
     -------
@@ -262,17 +275,20 @@ def cal_es(data, tar_list, alpha, n_permu, method_name, group_name):
     from scipy.stats import ranksums
     data_df = data.copy(); out_df= pd.DataFrame();
     group_name_='_'.join(group_name)
+    if test_str != "":
+        test_str="_"+test_str;
+        
     for k in tar_list:
         sample_Pat = data_df[data_df['group'] == group_name[0]][[k]]; 
         sample_NC  = data_df[data_df['group'] == group_name[1]][[k]];
         if 'Cohen_d' in method_name:
             [val_permu, p_permu, samples] = permute_Stats(sample_Pat, sample_NC, 'Cohen_d', alpha, n_permu, 0); 
             out_df=out_df.append(dict(zip(['ROI','group','test','ES','p_val'],
-                                          [k, group_name_, 'Cohen_d', val_permu, p_permu])), ignore_index=True);
+                                          [k, group_name_, 'Cohen_d'+test_str, val_permu, p_permu])), ignore_index=True);
         if 'rank_sum' in method_name:
             (val_ranksum, p_ranksum) = ranksums(sample_Pat, sample_NC);
             out_df=out_df.append(dict(zip(['ROI','group','test','ES','p_val'],
-                                          [k, group_name_, 'rank_sum', val_ranksum, p_ranksum])), ignore_index=True);
+                                          [k, group_name_, 'rank_sum'+test_str, val_ranksum, p_ranksum])), ignore_index=True);
 
     return out_df 
 
@@ -335,6 +351,33 @@ def cohen_d(d1, d2):
     #print('Cohens d: %.3f' % d_coh_val)
     return d_coh_val
 
+def creat_Bonf_df(p_df, alpha, df_n_comp):
+    """Create binary mask for Bonferroni multiple comparison from p_val df.
+    
+    Parameters
+    ----------
+    df: pandas.DataFrame
+    The dataframe which contains all the comparsion result p_val.
+    alpha : float
+        The significance level.
+    n_comp: list of int
+        Number of comparisons done for each row.
+        
+    Returns
+    -------
+    pass_df : pandas.DataFrame
+        The results for Bonferroni correction, p_corrected.
+    mask_df : pandas.DataFrame
+        The binary mask for Bonferroni correction (1 for significant, 0 non-significant).
+        
+    """
+    df_n_comp.loc[:,'alpha_corr']=alpha/df_n_comp.loc[:,'n_comp'];
+    pass_df=p_df.copy(); mask_df=p_df.copy();
+    for x in p_df.index:
+        pass_df.loc[x,:]=[y if y<df_n_comp.loc[x,'alpha_corr'] else np.NaN for y in pass_df.loc[x,:]];
+        mask_df.loc[x,:]=[False if y<df_n_comp.loc[x,'alpha_corr'] else True for y in mask_df.loc[x,:]];
+    
+    return pass_df, mask_df
 
 def reformat_df(df, group_name, es_name):
     import statsmodels.stats as sts
