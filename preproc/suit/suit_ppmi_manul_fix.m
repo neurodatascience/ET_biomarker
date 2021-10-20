@@ -198,20 +198,20 @@ for i_ = 1:data.n_sub; data.norm_pass{i_}=1; end
 %% fix single subject normalization 
 %sub_3011,sub_3016
 
-% i_err = 4; %i_err = 6;
-% delete(fullfile(output_path, data.gm{i_err}), fullfile(output_path, data.wm{i_err}))
-% delete(fullfile(output_path, data.mask{i_err}), fullfile(output_path, data.aff{i_err}))
-% delete(fullfile(output_path, data.deform{i_err}), fullfile(output_path, ['a_', data.gm{i_err}]),fullfile(output_path, ['a_', data.wm{i_err}]))
-% delete(fullfile(output_path, ['c_', data.t1_name{i_err},'.nii']),fullfile(output_path, ['m', data.gm{i_err}]),fullfile(output_path, ['m', data.wm{i_err}]))
-% delete(fullfile(output_path, ['iw_MDTB_10Regions_u_a_', data.gm{i_err}]), fullfile(output_path, ['iw_Lobules-SUIT_u_a_', data.gm{i_err}]))
-% suit_isolate_seg({data.nii_out{i_err}}); % segmentation: cerebelum isolation
-% job_err.subjND(1).gray={fullfile(output_path,data.gm{i_err})}; 
-% job_err.subjND(1).white={ fullfile(output_path,data.wm{i_err})};
-% job_err.subjND(1).isolation={fullfile(output_path,data.mask{i_err})}; 
-% suit_normalize_dartel(job_err)
-% 
-% for i_ = 1:data.n_sub; data.norm_pass{i_}=0; end
-% data.norm_pass{i_err}=1;
+i_err = 5; %i_err = 6;
+%delete(fullfile(output_path, data.gm{i_err}), fullfile(output_path, data.wm{i_err}))
+%delete(fullfile(output_path, data.mask{i_err}), fullfile(output_path, data.aff{i_err}))
+%delete(fullfile(output_path, data.deform{i_err}), fullfile(output_path, ['a_', data.gm{i_err}]),fullfile(output_path, ['a_', data.wm{i_err}]))
+%delete(fullfile(output_path, ['c_', data.t1_name{i_err},'.nii']),fullfile(output_path, ['m', data.gm{i_err}]),fullfile(output_path, ['m', data.wm{i_err}]))
+%delete(fullfile(output_path, ['iw_MDTB_10Regions_u_a_', data.gm{i_err}]), fullfile(output_path, ['iw_Lobules-SUIT_u_a_', data.gm{i_err}]))
+suit_isolate_seg({data.nii_out{i_err}}); % segmentation: cerebelum isolation
+job_err.subjND(1).gray={fullfile(output_path,data.gm{i_err})}; 
+job_err.subjND(1).white={ fullfile(output_path,data.wm{i_err})};
+job_err.subjND(1).isolation={fullfile(output_path,data.mask{i_err})}; 
+suit_normalize_dartel(job_err)
+
+for i_ = 1:data.n_sub; data.norm_pass{i_}=0; end
+data.norm_pass{i_err}=1;
 % data.norm_pass{4}=1; data.norm_pass{6}=1;
 %% Register atlas to participant_id to calculate vol size
 
