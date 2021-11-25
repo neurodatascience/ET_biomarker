@@ -391,3 +391,35 @@ def reformat_df(df, group_name, es_name):
                                                   method='fdr_bh', is_sorted=False, returnsorted=False)[1];
         es_list.append(es_list_); p_list.append(p_list_); p_multi_list.append(p_multi_list_);
     return es_list, p_list, p_multi_list, voi_name, method_name
+
+# comparison of distributions
+def age_sex_comp_test(g1, g2):
+    # Comparing age (t-test) and sex (chisqure test) distributions of 2 groups
+    import scipy
+    import statsmodels.stats.weightstats as ws
+    # group are dataframes with M/F as sex and int as age
+    g1_name=list(g1['group'])[0]; g2_name= list(g2['group'])[0];
+    g1_m = g1[g1['sex']=='M'].shape[0]; g1_f = g1[g1['sex']=='F'].shape[0];
+    g2_m = g2[g2['sex']=='M'].shape[0]; g2_f = g2[g2['sex']=='F'].shape[0];
+    print( g1_name, '/', g2_name,' :')
+    print('M/F: ', g1_m, '/', g1_f, '; ', g2_m, '/', g2_f)
+    print('age mean: ', g1['age'].mean(),  '/', g2['age'].mean())
+    print('age std: ',  g1['age'].std(), '/'  , g2['age'].std())
+    # chi-square test for sex
+    chisq, chi_pval = scipy.stats.chi2_contingency([[g1_m, g1_f], [g2_m, g2_f]])[:2]
+    print('Sex Chisqure test: \n','chisq =%.6f, pvalue = %.6f'%(chisq, chi_pval));
+    # t-test for age 
+    t_stat,t_pval,t_df=ws.ttest_ind(g1['age'], g2['age'], alternative='two-sided', usevar='pooled')
+    print('Age 2-sided independent t-test (tstat, pval, df): \n','tstat =%.6f, pvalue = %.6f, df = %i'%(t_stat, t_pval, t_df),'\n\n')
+    return {'sex': [chisq, chi_pval], 'age':[t_stat, t_pval, t_df]}
+
+# calculate the age percentiles
+def age2percentile(age_array):
+    import numpy as np
+    percentiles = np.argsort(np.argsort(age_array)) * 100. / (len(age_array) - 1)
+    return percentiles
+
+def dist_score_L2(data_point, tar_distr):
+    #group_size = len(group_age);
+    score=np.sqrt(sum(np.power(data_point-tar_distr,2)))
+    return score
