@@ -1,4 +1,4 @@
-,age,sex,group,cohort,eTIV
+subject,age,sex,group,cohort,eTIV
 sub-0016,78,M,ET,MNI,1826103.15575
 sub-002S0295,89,M,NC,ADNI,1683891.325623
 sub-002S4225,70,M,NC,ADNI,1880480.84738

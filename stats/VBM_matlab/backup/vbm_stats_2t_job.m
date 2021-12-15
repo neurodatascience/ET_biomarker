@@ -1,5 +1,5 @@
 %-----------------------------------------------------------------------
-% Job saved on 03-Sep-2021 09:47:13 by cfg_util (rev $Rev: 7345 $)
+% Job saved on 15-Dec-2021 14:25:22 by cfg_util (rev $Rev: 7345 $)
 % spm SPM - SPM12 (7771)
 % cfg_basicio BasicIO - Unknown
 %-----------------------------------------------------------------------
@@ -312,7 +312,7 @@ matlabbatch{1}.spm.stats.factorial_design.cov(3).cname = 'eTIV';
 matlabbatch{1}.spm.stats.factorial_design.cov(3).iCFI = 1;
 matlabbatch{1}.spm.stats.factorial_design.cov(3).iCC = 5;
 matlabbatch{1}.spm.stats.factorial_design.multi_cov = struct('files', {}, 'iCFI', {}, 'iCC', {});
-matlabbatch{1}.spm.stats.factorial_design.masking.tm.tma.athresh = 0.01;
+matlabbatch{1}.spm.stats.factorial_design.masking.tm.tm_none = 1;
 matlabbatch{1}.spm.stats.factorial_design.masking.im = 0;
 matlabbatch{1}.spm.stats.factorial_design.masking.em = {''};
 matlabbatch{1}.spm.stats.factorial_design.globalc.g_omit = 1;
@@ -329,11 +329,11 @@ matlabbatch{3}.spm.stats.con.delete = 0;
 matlabbatch{4}.spm.stats.results.spmmat = {'C:\Users\Vincent\Desktop\scratch\output\mni_etnc_spm_vbm\2sammple_ttest\SPM.mat'};
 matlabbatch{4}.spm.stats.results.conspec.titlestr = '';
 matlabbatch{4}.spm.stats.results.conspec.contrasts = 1;
-matlabbatch{4}.spm.stats.results.conspec.threshdesc = 'none';
-matlabbatch{4}.spm.stats.results.conspec.thresh = 0.001;
+matlabbatch{4}.spm.stats.results.conspec.threshdesc = 'FDR';
+matlabbatch{4}.spm.stats.results.conspec.thresh = 0.05;
 matlabbatch{4}.spm.stats.results.conspec.extent = 0;
 matlabbatch{4}.spm.stats.results.conspec.conjunction = 1;
-matlabbatch{4}.spm.stats.results.conspec.mask.image.name = {'C:\Users\Vincent\Desktop\scratch\output\mni_etnc_spm_vbm\2sammple_ttest\mask.nii,1'};
+matlabbatch{4}.spm.stats.results.conspec.mask.image.name = {'C:\Users\Vincent\Desktop\scratch\output\m_tools\spm12\toolbox\suit\templates\maskMNI.nii,1'};
 matlabbatch{4}.spm.stats.results.conspec.mask.image.mtype = 0;
 matlabbatch{4}.spm.stats.results.units = 1;
 matlabbatch{4}.spm.stats.results.export{1}.ps = true;
