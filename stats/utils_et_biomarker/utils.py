@@ -238,12 +238,14 @@ def rep_model(glm_dict, repo_mode):
     if repo_mode['name']=='significant':
         col_name = repo_mode['col_name'];
         alpha_ = repo_mode['th'];
-        print("Only display significant results @",str(alpha_),' for ', col_name,' :\n' )
         for k in glm_dict.keys():
             if glm_dict[k]['res'].pvalues[col_name]<alpha_:
+                print(k, 'significant results detected without multiple comparison, detailed model report below:\n' )
                 print('\n')
                 print(glm_dict[k]['formula'],'\n')
                 print(glm_dict[k]['res'].summary2())
+            else:
+                print(k, ': no significant result with p=', glm_dict[k]['res'].pvalues[col_name])
     return glm_dict
 
 def cal_es(data, tar_list, alpha, n_permu, method_name, group_name, test_str):
