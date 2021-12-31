@@ -123,7 +123,6 @@ def ctr_tiv(data, y_var, icv_var, ctr_var, method_name):
         comb_cvar=[icv_var]+ctr_var
     else:
         comb_cvar=[]
-    
     if method_name == 'dpa': # direct proportion adjustment
         new_col=[];
         for x in y_var:
