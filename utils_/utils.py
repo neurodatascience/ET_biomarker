@@ -130,7 +130,7 @@ def ctr_tiv(data, y_var, icv_var, ctr_var, method_name):
             dat[r_name] = dat[x]/dat[icv_var];
         dat_, col_, reg_list_ = ctr_by_nc(dat, new_col, ctr_var, 'NC');
         res_col = col_;
-        print('New columns', str(len(res_col))+' : ', res_col)
+        print('New columns', str(len(res_col)))
         return dat_, res_col
     
     if method_name == 'ppa': # power_corrected_portion
@@ -146,12 +146,12 @@ def ctr_tiv(data, y_var, icv_var, ctr_var, method_name):
             reg_list.append(reg); new_col.append(tmp_col);
         dat_, col_, reg_list_ = ctr_by_nc(dat, new_col, ctr_var, 'NC');
         res_col = col_;
-        print('New columns', str(len(res_col))+' : ', res_col)
+        print('New columns', str(len(res_col)))
         return dat_, res_col
     
     if method_name == 'rm_norm': #residual based on n
         dat_, res_col, reg_list_ = ctr_by_nc(dat, y_var, comb_cvar, 'NC')
-        print('New columns', str(len(res_col))+' : ', res_col)
+        print('New columns', str(len(res_col)))
         return dat_, res_col
     
     if method_name == 'asm': # allometric scaling coefficient (ASC)
@@ -168,7 +168,7 @@ def ctr_tiv(data, y_var, icv_var, ctr_var, method_name):
             reg_list.append(reg); new_col.append(tmp_col);
         dat_, col_, reg_list_ = ctr_by_nc(dat, new_col, ctr_var, 'NC');
         res_col = col_;
-        print('New columns', str(len(res_col))+' : ', res_col)
+        print('New columns', str(len(res_col)))
         return dat_, res_col
     
     if method_name == 'wdcr':# whole dataset confound regression
