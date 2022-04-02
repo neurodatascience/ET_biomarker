@@ -82,7 +82,7 @@ def ctr_by_nc(data, y_var, c_var, nc_group):
             tmp_col = x+"_"+c_var
         dat[tmp_col] = dat[x]-np.matmul(x_all, reg.coef_)
         new_col.append(tmp_col); reg_list.append(reg);
-    return dat, new_col, reg_list
+    return dat, new_col
 
 def ctr_tiv(data, y_var, icv_var, ctr_var, method_name):
     """Control the confounding effect with multiple methods: .
