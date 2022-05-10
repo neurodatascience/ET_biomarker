@@ -15,7 +15,9 @@ Matching and confounder are the 2 main tools used in this analysis.
 Pre-registration report:
 -------------
 
-    `Pre-registration report  <https://osf.io/ucrxf/>`_ on OSF.
+    `Pre-registration report  <https://osf.io/ucrxf/>`_ on OSF;
+    
+    `Approved Pre-registration report <https://figshare.com/s/3279b808bb70f9f01a46>`_ from *Sci. Rep.* on figshare
 
 Requirements
 -------------
